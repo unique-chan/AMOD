@@ -9,7 +9,7 @@
 
 <p align="center">
   <b><a href="github.com/unique-chan">Yechan Kim</a></b> and
-  <b><a href="github.com/citizen135">Jong Hyun Park</a></b>
+  <b><a href="github.com/citizen135">JongHyun Park</a></b>
 </p>
 
 
