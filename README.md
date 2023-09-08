@@ -6,7 +6,7 @@
   <a href="#"><img alt="Python3.8" src="https://img.shields.io/badge/Python-3.8-blue?logo=python&logoColor=white"></a>
   <a href="#"><img alt="ARMA3" src="https://img.shields.io/badge/Game-ARMA3-red?logo=steam"></a>
   <a href="#"><img alt="Windows10-11" src="https://img.shields.io/badge/Platform-Windows_10_|_11-orange?logo=microsoft"></a>
-  <a href="https://github.com/unique-chan/AMOD-devkit/blob/main/LICENSE"><img alt="GPL-v3" src="https://img.shields.io/badge/License-GPL_v3-green?logo=gnu"></a>
+  <a href="./blob/main/LICENSE"><img alt="MIT" src="https://img.shields.io/badge/License-MIT-green?logo=MIT"></a>
 </p>
 
 <p align="center">
