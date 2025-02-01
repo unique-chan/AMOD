@@ -17,6 +17,11 @@ class AMODDataset(CustomDataset):
         'Self-propelled Artillery', 'Support', 'TEL', 'Tank'
     )
 
+    PALETTE = [(165, 42, 42), (189, 183, 107), (0, 255, 0), (255, 0, 0),
+               (138, 43, 226), (255, 128, 0), (255, 0, 255), (0, 255, 255),
+               (255, 193, 193), (0, 51, 153), (255, 250, 205), (0, 139, 139),
+               (255, 255, 0)] # , (147, 116, 116), (0, 0, 255)
+
     def __init__(self,
                  ann_file: str,
                  pipeline: Optional[List[dict]],
