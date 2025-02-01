@@ -27,7 +27,6 @@ class AMODDataset(CustomDataset):
         'Tank': (255, 122, 0),
         'TEL': (121, 85, 72),
     }
-
     CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
     PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
 
