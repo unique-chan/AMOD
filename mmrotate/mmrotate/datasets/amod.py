@@ -12,15 +12,24 @@ from mmrotate.core import eval_rbbox_map, poly2obb_np
 
 @ROTATED_DATASETS.register_module()
 class AMODDataset(CustomDataset):
-    CLASSES = (
-        'Armored', 'Artillery', 'Boat', 'Helicopter', 'LCU', 'MLRS', 'Plane', 'RADAR', 'SAM',
-        'Self-propelled Artillery', 'Support', 'TEL', 'Tank'
-    )
+    CLASSES_PALETTE_COMBINATION_DIC = {
+        'Armored': (244, 67, 54),
+        'Artillery': (255, 51, 204),
+        'Boat': (156, 39, 176),
+        'Helicopter': (103, 58, 183),
+        'LCU': (63, 81, 181),
+        'MLRS': (33, 150, 243),
+        'Plane': (0, 188, 212),
+        'RADAR': (0, 150, 136),
+        'SAM': (76, 175, 80),
+        'Self-propelled Artillery': (139, 195, 74),
+        'Support': (205, 220, 57),
+        'Tank': (255, 122, 0),
+        'TEL': (121, 85, 72),
+    }
 
-    PALETTE = [(165, 42, 42), (189, 183, 107), (0, 255, 0), (255, 0, 0),
-               (138, 43, 226), (255, 128, 0), (255, 0, 255), (0, 255, 255),
-               (255, 193, 193), (0, 51, 153), (255, 250, 205), (0, 139, 139),
-               (255, 255, 0)] # , (147, 116, 116), (0, 0, 255)
+    CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
+    PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
 
     def __init__(self,
                  ann_file: str,
