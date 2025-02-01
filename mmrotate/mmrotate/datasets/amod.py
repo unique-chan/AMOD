@@ -23,7 +23,7 @@ class AMODDataset(CustomDataset):
                  version: str = 'le90',
                  angles: Optional[List[int]] = None,
                  **kwargs) -> None:
-        '''
+        """
         Args:
             ann_file: "directory path" for annotation files (⚠️ ann_file should be ended with '/'!)
              👉 e.g. 'data/split_1024_dota1_0/trainval/annfiles/'
@@ -35,11 +35,11 @@ class AMODDataset(CustomDataset):
              👉 e.g. [0, 10, 20, 30, 40, 50], which means using all look angles available in AMOD
             **kwargs: a syntax in Python that allows a function to accept an arbitrary number of keyword arguments
              👉 These extra keyword arguments are collected into a dictionary within the function
-        '''
+        """
         if angles is None:
             angles = [0,]
 
-        print(f"[AMOD] Initializing with angles: {angles} and IoU Threshold: {iou_thr}")
+        print(f'⭐ [AMOD] Initializing with angles: {angles}')
         self.version = version
         self.cat2label = {cat: i for i, cat in enumerate(self.CLASSES)}
         self.angles = angles
@@ -50,10 +50,8 @@ class AMODDataset(CustomDataset):
         sample_idx_list = mmcv.list_from_file(ann_file)
         data_info_list = []
 
-        angles = list(map(int, self.angles.split(',')))
-
         for sample_idx in sample_idx_list:
-            for angle in angles:
+            for angle in self.angles:
                 try:
                     annot_df = pd.read_csv(
                         f'{self.img_prefix}/{sample_idx}/{angle}/ANNOTATION-EO_{sample_idx}_{angle}.csv'
@@ -94,7 +92,7 @@ class AMODDataset(CustomDataset):
 
     def _filter_imgs(self):
         """
-        Filter out images without valid annotations.
+        Filter out images without valid annotations
         """
         valid_inds = []
         for i, data_info in enumerate(self.data_infos):
@@ -102,21 +100,15 @@ class AMODDataset(CustomDataset):
                 valid_inds.append(i)
         return valid_inds
 
-        """
-        Get annotation info for a specific index.
-        """
-        return self.data_infos[idx]['ann']
-
-    def evaluate(
-            self,
-            results,
-            metric='mAP',
-            logger=None,
-            proposal_nums=(100, 300, 1000),
-            iou_thr=0.5,
-            scale_ranges=None,
-            use_07_metric=True,
-            nproc=4
+    def evaluate(self,
+                 results,
+                 metric='mAP',
+                 logger=None,
+                 proposal_nums=(100, 300, 1000),
+                 iou_thr=0.5,
+                 scale_ranges=None,
+                 use_07_metric=True,
+                 nproc=4
     ):
         """
         Evaluate dataset performance with mAP.
