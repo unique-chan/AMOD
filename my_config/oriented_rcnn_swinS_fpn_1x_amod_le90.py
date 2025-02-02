@@ -1,54 +1,23 @@
-dataset_type = 'DOTADataset'
-data_root = 'data/split_1024_dota1_0/'
+dataset_type = 'AMODDataset'
+data_root = 'data/AMOD_V1/' # Should be changed properly!
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
-train_pipeline = [
-    dict(type='LoadImageFromFile'),
-    dict(type='LoadAnnotations', with_bbox=True),
-    dict(type='RResize', img_scale=(1024, 1024)),
-    dict(
-        type='RRandomFlip',
-        flip_ratio=[0.25, 0.25, 0.25],
-        direction=['horizontal', 'vertical', 'diagonal'],
-        version='le90'),
-    dict(
-        type='Normalize',
-        mean=[123.675, 116.28, 103.53],
-        std=[58.395, 57.12, 57.375],
-        to_rgb=True),
-    dict(type='Pad', size_divisor=32),
-    dict(type='DefaultFormatBundle'),
-    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
-]
-test_pipeline = [
-    dict(type='LoadImageFromFile'),
-    dict(
-        type='MultiScaleFlipAug',
-        img_scale=(1024, 1024),
-        flip=False,
-        transforms=[
-            dict(type='RResize'),
-            dict(
-                type='Normalize',
-                mean=[123.675, 116.28, 103.53],
-                std=[58.395, 57.12, 57.375],
-                to_rgb=True),
-            dict(type='Pad', size_divisor=32),
-            dict(type='DefaultFormatBundle'),
-            dict(type='Collect', keys=['img'])
-        ])
-]
 data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2,
     train=dict(
-        type='DOTADataset',
-        ann_file='data/split_1024_dota1_0/trainval/annfiles/',
-        img_prefix='data/split_1024_dota1_0/trainval/images/',
+        type=dataset_type,
+        data_root=data_root,
+        ann_file='train.txt',
+        img_prefix='train',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(type='LoadAnnotations', with_bbox=True),
-            dict(type='RResize', img_scale=(1024, 1024)),
+            dict(type='PolyRandomRotate'),
+            dict(type='RRandomCrop', crop_size=(1000, 1000)),
+            dict(type='RResize',
+                 img_scale=[(800, 800), (2000, 2000)],  # 0.8x ~ 2x
+                 multiscale_mode='range'),
             dict(
                 type='RRandomFlip',
                 flip_ratio=[0.25, 0.25, 0.25],
@@ -56,8 +25,8 @@ data = dict(
                 version='le90'),
             dict(
                 type='Normalize',
-                mean=[123.675, 116.28, 103.53],
-                std=[58.395, 57.12, 57.375],
+                mean=img_norm_cfg['mean'],
+                std=img_norm_cfg['std'],
                 to_rgb=True),
             dict(type='Pad', size_divisor=32),
             dict(type='DefaultFormatBundle'),
@@ -65,21 +34,22 @@ data = dict(
         ],
         version='le90'),
     val=dict(
-        type='DOTADataset',
-        ann_file='data/split_1024_dota1_0/trainval/annfiles/',
-        img_prefix='data/split_1024_dota1_0/trainval/images/',
+        type=dataset_type,
+        data_root=data_root,
+        ann_file='val.txt',
+        img_prefix='train',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
                 type='MultiScaleFlipAug',
-                img_scale=(1024, 1024),
+                img_scale=(1920, 1440),
                 flip=False,
                 transforms=[
                     dict(type='RResize'),
                     dict(
                         type='Normalize',
-                        mean=[123.675, 116.28, 103.53],
-                        std=[58.395, 57.12, 57.375],
+                        mean=img_norm_cfg['mean'],
+                        std=img_norm_cfg['std'],
                         to_rgb=True),
                     dict(type='Pad', size_divisor=32),
                     dict(type='DefaultFormatBundle'),
@@ -88,29 +58,31 @@ data = dict(
         ],
         version='le90'),
     test=dict(
-        type='DOTADataset',
-        ann_file='data/split_1024_dota1_0/test/images/',
-        img_prefix='data/split_1024_dota1_0/test/images/',
+        type=dataset_type,
+        data_root=data_root,
+        ann_file='test.txt',
+        img_prefix='test',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
                 type='MultiScaleFlipAug',
-                img_scale=(1024, 1024),
+                img_scale=(1920, 1440),
                 flip=False,
                 transforms=[
                     dict(type='RResize'),
                     dict(
                         type='Normalize',
-                        mean=[123.675, 116.28, 103.53],
-                        std=[58.395, 57.12, 57.375],
+                        mean=img_norm_cfg['mean'],
+                        std=img_norm_cfg['std'],
                         to_rgb=True),
                     dict(type='Pad', size_divisor=32),
                     dict(type='DefaultFormatBundle'),
                     dict(type='Collect', keys=['img'])
                 ])
         ],
-        version='le90'))
-evaluation = dict(interval=1, metric='mAP')
+        version='le90')
+)
+evaluation = dict(interval=1, metric='mAP', save_best='mAP')
 optimizer = dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 lr_config = dict(
@@ -118,10 +90,11 @@ lr_config = dict(
     warmup='linear',
     warmup_iters=500,
     warmup_ratio=0.3333333333333333,
-    step=[8, 11])
-runner = dict(type='EpochBasedRunner', max_epochs=12)
-checkpoint_config = dict(interval=1)
-log_config = dict(interval=50, hooks=[dict(type='TextLoggerHook')])
+    step=[16, 22])
+runner = dict(type='EpochBasedRunner', max_epochs=30)
+checkpoint_config = dict(interval=-1) # save only when val mAP is best
+log_config = dict(interval=50, hooks=[dict(type='TextLoggerHook'),
+                                      dict(type='TensorboardLoggerHook')])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = None
