@@ -43,6 +43,7 @@ data = dict(
         angles=angles,
         pipeline=[
             dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations', with_bbox=True),
             dict(
                 type='MultiScaleFlipAug',
                 img_scale=(1920, 1440),
@@ -68,6 +69,7 @@ data = dict(
         angles=angles,
         pipeline=[
             dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations', with_bbox=True),
             dict(
                 type='MultiScaleFlipAug',
                 img_scale=(1920, 1440),
