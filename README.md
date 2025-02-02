@@ -124,5 +124,5 @@ DATA_ROOT="/media/yechani9/T7\Shield/AMOD_V1_FINAL_OPTICAL/"
 python mmrotate/tools/train.py my_config/oriented_rcnn_swinS_fpn_1x_amod_le90.py \
  --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
                data.train.angles="$ANGLES" data.val.angles="$ANGLES" \
-               runner.max_epochs=1 
+               runner.max_epochs=1 data.samples_per_gpu=1
 ~~~
