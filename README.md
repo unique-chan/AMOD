@@ -90,7 +90,7 @@ You can use the following commands to train a model from the dataset.
 python tools/train.py ${CONFIG_FILE} [optional arguments]
 
 # Multi-gpu
-./tools/dist_test.sh ${CONFIG_FILE} ${GPU_NUM} [optional arguments]
+./tools/dist_train.sh ${CONFIG_FILE} ${GPU_NUM} [optional arguments]
 ~~~
 
 **Optional arguments** are:
