@@ -68,13 +68,13 @@
     * If **result.jpg** is generated correctly, it means that the environment is set up properly.
     </details>
 
-
 * **Step 5.** Install `Tensorboard` for visualizing learning curves.
     ~~~shell
     pip install tensorboard==2.9.1
     # If AttributeError: module 'setuptools._distutils' has no attribute 'version' ->
     pip install setuptools==59.5.0
     ~~~
+ 
 
 ### Test a model:
 You can use the following commands to infer a dataset.
