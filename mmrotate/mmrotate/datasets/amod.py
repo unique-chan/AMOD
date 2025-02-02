@@ -50,9 +50,10 @@ class AMODDataset(CustomDataset):
              👉 These extra keyword arguments are collected into a dictionary within the function
         """
         if angles is None:
-            angles = [0,]
-
-        print(f'⭐ [AMOD] Initializing with angles: {angles}')
+            angles = [0, ]
+        if '\\' in kwargs['data_root']:                                     # if spacing is needed
+            kwargs['data_root'] = kwargs['data_root'].replace('\\', ' ')
+        print(f'▶️ [AMOD] Initializing with angles: {angles}, ann_file: {ann_file}, kwargs: {kwargs}')
         self.version = version
         self.cat2label = {cat: i for i, cat in enumerate(self.CLASSES)}
         self.angles = angles

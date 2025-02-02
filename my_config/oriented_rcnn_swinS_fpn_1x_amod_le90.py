@@ -28,11 +28,14 @@ mp_start_method = 'fork'
 
 
 # 🧑‍🏫 TRAIN/VAL/TEST CONFIG #############################################################################################
+# log (removed later): [/24157] -> train split
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
+    # dict(type='RRandomCrop', crop_size=(800, 800), allow_negative_crop=False, recompute_bbox=True), # Why error?
     dict(type='RResize',
-        img_scale=[(800, 800), (1600,1600)],
+        # img_scale=[(640, 640), (1024, 1024)], # About 0.8x - 1.3x
+        img_scale=[(800, 800), (1920, 1440)], # About 0.8x - 1.3x
         multiscale_mode='range'),
     dict(type='RRandomFlip',
          flip_ratio=[0.25, 0.25, 0.25],
@@ -45,9 +48,10 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile'),
+    # dict(type='LoadAnnotations', with_bbox=True),
     dict(
         type='MultiScaleFlipAug',
-        img_scale=[(1200, 1200)],
+        img_scale=[(1920, 1440)],
         transforms=[
             dict(type='RResize'),
             dict(type='Normalize', **img_norm_cfg),
