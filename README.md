@@ -15,7 +15,8 @@
 </p>
 
 <p align="center">
-  <b><a href="https://github.com/unique-chan">Yechan Kim</a></b> 
+  <b>Yechan Kim</b> and
+  <b>SooYeon Kim</b>
 </p>
 
 ### This repo includes:
