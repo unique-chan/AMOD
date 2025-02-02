@@ -1,4 +1,5 @@
 dataset_type = 'AMODDataset'
+angles = [0,]
 data_root = 'data/AMOD_V1/' # Should be changed properly!
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -10,6 +11,7 @@ data = dict(
         data_root=data_root,
         ann_file='train.txt',
         img_prefix='train',
+        angles=angles,
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(type='LoadAnnotations', with_bbox=True),
@@ -38,6 +40,7 @@ data = dict(
         data_root=data_root,
         ann_file='val.txt',
         img_prefix='train',
+        angles=angles,
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
@@ -62,6 +65,7 @@ data = dict(
         data_root=data_root,
         ann_file='test.txt',
         img_prefix='test',
+        angles=angles,
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(

@@ -68,6 +68,14 @@
     * If **result.jpg** is generated correctly, it means that the environment is set up properly.
     </details>
 
+
+* **Step 5.** Install `Tensorboard` for visualizing learning curves.
+    ~~~shell
+    pip install tensorboard==2.9.1
+    # If AttributeError: module 'setuptools._distutils' has no attribute 'version' ->
+    pip install setuptools==59.5.0
+    ~~~
+
 ### Test a model:
 You can use the following commands to infer a dataset.
 ~~~shell
@@ -107,4 +115,14 @@ CUDA_VISIBLE_DEVICES=4,5,6,7 PORT=29501 ./tools/dist_train.sh ${CONFIG_FILE} 4
 
 Examples:
 
-🚧 Under construction!
+* Train OrientedRCNN with Swin-S on train set of AMOD. 
+  * Tip1: If spacing is needed in `DATA_ROOT`, kindly use '\\' as spacing.
+  * Tip2: You can directly modify config file instead of using `--cfg-options`!
+~~~shell
+ANGLES="0,10,20,30,40,50"
+DATA_ROOT="/media/yechani9/T7\Shield/AMOD_V1_FINAL_OPTICAL/"
+python mmrotate/tools/train.py my_config/oriented_rcnn_swinS_fpn_1x_amod_le90.py \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               data.train.angles="$ANGLES" data.val.angles="$ANGLES" \
+               runner.max_epochs=1 
+~~~
