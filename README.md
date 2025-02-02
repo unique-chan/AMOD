@@ -1,9 +1,9 @@
 <h1 align="center" >
-🔬 Official Experiment Kit for AMOD
+✈️ Official Experiment Kit for AMOD 🛰️
 </h1>
 
 <h3 align="center">
-💬 Here, AMOD refers to our dataset, <u>A</u>rma3 <u>M</u>ilitary <u>O</u>bject <u>D</u>etection in optical satellite imagery!
+💬 Here, AMOD refers to our dataset, <u>A</u>rma3 <u>M</u>ilitary <u>O</u>bject <u>D</u>etection (🪖) in optical satellite imagery!
 </h3>
 
 <p align="center">
