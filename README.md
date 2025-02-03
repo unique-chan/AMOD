@@ -38,7 +38,7 @@
     pip install torch==1.10.2+cu113 torchvision==0.11.3+cu113 -f https://download.pytorch.org/whl/torch_stable.html  
     ~~~
 
-* **Step 3.** Install `MMDetection (v2.28.2)` ([v2.28.2](https://mmdetection.readthedocs.io/en/v2.28.2/) is the latest version suited of 2024 to MMRotate).
+* **Step 3.** Install `MMDetection (v2.28.2)` ([v2.28.2](https://mmdetection.readthedocs.io/en/v2.28.2/) is the latest version suited to MMRotate of 2024).
     ~~~shell
     # ⚠️ No need to clone MMDet (e.g. "git clone -b 2.x https://github.com/open-mmlab/mmdetection; rm -rf mmdetection/.git"). Already cloned! 
     pip install -U openmim==0.3.9
@@ -116,13 +116,86 @@ CUDA_VISIBLE_DEVICES=4,5,6,7 PORT=29501 ./tools/dist_train.sh ${CONFIG_FILE} 4
 Examples:
 
 * Train OrientedRCNN with Swin-S on train set of AMOD. 
-  * Tip1: If spacing is needed in `DATA_ROOT`, kindly use '\\' as spacing.
-  * Tip2: You can directly modify config file instead of using `--cfg-options`!
-~~~shell
-ANGLES="0,10,20,30,40,50"
-DATA_ROOT="/media/yechani9/T7\Shield/AMOD_V1_FINAL_OPTICAL/"
-python mmrotate/tools/train.py my_config/oriented_rcnn_swinS_fpn_1x_amod_le90.py \
- --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
-               data.train.angles="$ANGLES" data.val.angles="$ANGLES" \
-               runner.max_epochs=1 data.samples_per_gpu=1
-~~~
+  * Tip1: Please read carefully both `Preferred` and `Bad` examples!!!
+  * Tip2: You can directly modify config file instead of using `--cfg-options` (Do not over-use)!
+  * <details>
+    <summary> Preferred example (👌) </summary>
+
+    * If you want to train three models with look angles [0,10], [10,20], [50] respectively, on AMOD for 1 epoch with batch size 1? 
+    * **Solution**:
+      * 1. Copy the file `orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py` located in the my_config directory three times.
+      * 2. Rename each file as follows:
+        * `orientedrcnn_swinS_fpn_angle0,10_1epoch_le90_amod.py`
+        * `orientedrcnn_swinS_fpn_angle10,20_1epoch_le90_amod.py`
+        * `orientedrcnn_swinS_fpn_angle50_1epoch_le90_amod.py`
+      * 3. Properly modify variables `angles` (line 3) and `runner.max_epochs` (line 19) in each file.
+      * 4. Finally, run the below shell code:
+    
+    ~~~shell
+    DATA_ROOT="/media/yechani9/T7\Shield/AMOD_V1_FINAL_OPTICAL/" # AMOD DATA ROOT PATH!!!
+    
+    python mmrotate/tools/train.py my_config/orientedrcnn_swinS_fpn_angle0,10_1epoch_le90_amod.py \
+     --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+                   data.samples_per_gpu=1
+    python mmrotate/tools/train.py my_config/orientedrcnn_swinS_fpn_angle10,20_1epoch_le90_amod.py \
+     --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+                   data.samples_per_gpu=1
+    python mmrotate/tools/train.py my_config/orientedrcnn_swinS_fpn_angle50_1epoch_le90_amod.py \
+     --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+                   data.samples_per_gpu=1
+    ~~~
+    
+    * Tip: You can remove `DATA_ROOT` and `--cfg-options ...` in the above shell code if you also properly modify variables `data_root` (in line 4) and `data.samples_per_gpu` (in line 79) in each config file.
+
+  </details>
+
+  * <details>
+    <summary> Another example: </summary>
+
+    * If you want to train three models with look angles [0,10], [10,20], [50] respectively, on AMOD for 1 epoch? The below is a bad example!
+  
+    ~~~shell
+    DATA_ROOT="/media/yechani9/T7\Shield/AMOD_V1_FINAL_OPTICAL/"
+
+    ANGLES="0,10"
+    python mmrotate/tools/train.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+     --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+                   data.train.angles="$ANGLES" data.val.angles="$ANGLES" \
+                   runner.max_epochs=1 data.samples_per_gpu=1
+    # ... almost same shell code be here for look angles [10,20] 
+    # ... almost same shell code be here for look angle [50] 
+    ~~~
+
+    * Reason: Using `--cfg-options` dynamically with the same config file **_while keeping the same working directory_** can lead to serious issues, such as experiment results being overwritten and difficulties in tracking which modifications were applied to each experiment. This becomes especially problematic when modifying crucial parameters like `ANGLES`, as it makes it nearly impossible to trace back the exact configurations that led to specific results.
+
+    * **Solution**: You have to separate `--work-dir` (working directories) per each experiment.
+    
+    ~~~shell
+    DATA_ROOT="/media/yechani9/T7\Shield/AMOD_V1_FINAL_OPTICAL/"
+
+    ANGLES="0,10"
+    python mmrotate/tools/train.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+     --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+                   data.train.angles="$ANGLES" data.val.angles="$ANGLES" \
+                   runner.max_epochs=1 data.samples_per_gpu=1
+                   --work-dir work_dirs/orientedrcnn_swinS_fpn$ANGLES
+    # ... almost same shell code be here for look angles [10,20] 
+    # ... almost same shell code be here for look angle [50] 
+    ~~~
+  
+    or use more advanced shell script (with `for` iteration) like:
+    ~~~shell
+    DATA_ROOT="/media/yechani9/T7\Shield/AMOD_V1_FINAL_OPTICAL/"
+    for ANGLES in 0,10 10,20 50; do
+        python mmrotate/tools/train.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+         --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+                       data.train.angles="$ANGLES" data.val.angles="$ANGLES" \
+                       runner.max_epochs=1 data.samples_per_gpu=1
+                       --work-dir work_dirs/orientedrcnn_swinS_fpn$ANGLES
+    done
+    ~~~
+    
+    Still, we recommend to follow as in the previous **good example**!
+  </details>
+
+  
