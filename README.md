@@ -119,7 +119,7 @@ Examples:
   * Tip1: Please read carefully both `Preferred` and `Bad` examples! (🚨)
   * Tip2: You can directly modify config file instead of using `--cfg-options` (Do not over-use)!
   * <details>
-    <summary> Preferred example (👌) </summary>
+    <summary> Preferred example (👌): </summary>
 
     * If you want to train three models with look angles [0,10], [10,20], [50] respectively, on AMOD for 1 epoch with batch size 1? 
     * **Solution**:
