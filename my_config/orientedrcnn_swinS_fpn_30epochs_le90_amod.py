@@ -33,7 +33,8 @@ train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(type='RResize',
-        img_scale=[(1536, 1152), (2340, 1728)], # 0.8x - 1.2x  (1x: 1920x1440)
+        img_scale=[(1280, 960)], # 0.66..x
+        # img_scale=[(1536, 1152), (2340, 1728)], # 0.8x - 1.2x  (1x: 1920x1440)
         multiscale_mode='range'),
     dict(type='RRandomFlip',
          flip_ratio=[0.25, 0.25, 0.25],
@@ -48,7 +49,7 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile'),
-    # dict(type='LoadAnnotations', with_bbox=True),
+    dict(type='LoadAnnotations', with_bbox=True),
     dict(
         type='MultiScaleFlipAug',
         img_scale=[(1920, 1440)],
@@ -57,9 +58,23 @@ test_pipeline = [
             dict(type='Normalize', **img_norm_cfg),
             dict(type='Pad', size_divisor=32),
             dict(type='DefaultFormatBundle'),
-            # dict(type='ImageToTensor', keys=['img']),
-            dict(type='Collect', keys=['img']),
-        ])]
+            dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
+        ])
+]
+# test_pipeline = [
+#     dict(type='LoadImageFromFile'),
+#     dict(
+#         type='MultiScaleFlipAug',
+#         img_scale=[(1920, 1440)],
+#         transforms=[
+#             dict(type='RResize'),
+#             dict(type='Normalize', **img_norm_cfg),
+#             dict(type='Pad', size_divisor=32),
+#             dict(type='DefaultFormatBundle'),
+#             # dict(type='ImageToTensor', keys=['img']),
+#             dict(type='Collect', keys=['img']),
+#         ])
+# ]
 data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2,
@@ -141,7 +156,7 @@ model = dict(
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=15,
+            num_classes=13,
             bbox_coder=dict(
                 type='DeltaXYWHAOBBoxCoder',
                 angle_range=angle_version,
