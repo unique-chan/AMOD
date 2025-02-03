@@ -116,7 +116,7 @@ CUDA_VISIBLE_DEVICES=4,5,6,7 PORT=29501 ./tools/dist_train.sh ${CONFIG_FILE} 4
 Examples:
 
 * Train OrientedRCNN with Swin-S on train set of AMOD. 
-  * Tip1: Please read carefully both `Preferred` and `Bad` examples!!!
+  * Tip1: Please read carefully both `Preferred` and `Bad` examples! (🚨)
   * Tip2: You can directly modify config file instead of using `--cfg-options` (Do not over-use)!
   * <details>
     <summary> Preferred example (👌) </summary>
