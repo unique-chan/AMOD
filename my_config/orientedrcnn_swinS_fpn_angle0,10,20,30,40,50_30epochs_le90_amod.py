@@ -1,6 +1,6 @@
 # 🚩 DEFAULT CONFIG ####################################################################################################
 dataset_type = 'AMODDataset'
-angles = [0,]
+angles = [0, 10, 20, 30, 40, 50]
 data_root = 'data/AMOD_V1/'
 load_from = None
 resume_from = None
