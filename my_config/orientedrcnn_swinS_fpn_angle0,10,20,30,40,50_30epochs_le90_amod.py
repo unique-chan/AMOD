@@ -28,7 +28,7 @@ mp_start_method = 'fork'
 
 
 # 🧑‍🏫 TRAIN/VAL/TEST CONFIG #############################################################################################
-# log (removed later): [/24157] -> train split
+# TIP: https://github.com/open-mmlab/mmdetection/issues/7680
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
@@ -49,7 +49,7 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(type='LoadAnnotations', with_bbox=True),
+    # dict(type='LoadAnnotations', with_bbox=True), # Not allowed for val/test!
     dict(
         type='MultiScaleFlipAug',
         img_scale=[(1920, 1440)],
@@ -58,23 +58,10 @@ test_pipeline = [
             dict(type='Normalize', **img_norm_cfg),
             dict(type='Pad', size_divisor=32),
             dict(type='DefaultFormatBundle'),
-            dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
+            dict(type='Collect', keys=['img'])
+            # dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])  # Not allowed for val/test!
         ])
 ]
-# test_pipeline = [
-#     dict(type='LoadImageFromFile'),
-#     dict(
-#         type='MultiScaleFlipAug',
-#         img_scale=[(1920, 1440)],
-#         transforms=[
-#             dict(type='RResize'),
-#             dict(type='Normalize', **img_norm_cfg),
-#             dict(type='Pad', size_divisor=32),
-#             dict(type='DefaultFormatBundle'),
-#             # dict(type='ImageToTensor', keys=['img']),
-#             dict(type='Collect', keys=['img']),
-#         ])
-# ]
 data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2,
