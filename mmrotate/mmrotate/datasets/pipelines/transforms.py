@@ -376,6 +376,7 @@ class RRandomCrop(RandomCrop):
                     and not allow_negative_crop):
                 return None
 
+            print('**', valid_inds.shape)
             if type(valid_inds) is bool:
                 print('들어오니?', end=' ')
                 valid_inds = [valid_inds, ]
