@@ -376,13 +376,8 @@ class RRandomCrop(RandomCrop):
                     and not allow_negative_crop):
                 return None
 
+            valid_inds = np.atleast_1d(valid_inds)
             print('**', valid_inds.shape)
-            if type(valid_inds) is bool:
-                print('들어오니?', end=' ')
-                valid_inds = [valid_inds, ]
-                print(valid_inds)
-            else:
-                print('에휴', valid_inds)
 
             results[key] = bboxes[valid_inds, :]
             # label fields. e.g. gt_labels and gt_labels_ignore
