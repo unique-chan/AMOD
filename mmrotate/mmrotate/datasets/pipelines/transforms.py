@@ -363,7 +363,7 @@ class RRandomCrop(RandomCrop):
             bbox_offset = np.array([offset_w, offset_h, 0, 0, 0],
                                    dtype=np.float32)
             bboxes = results[key] - bbox_offset
-
+            print('씨이발', bboxes.shape)
             windows = np.array([width / 2, height / 2, width, height, 0],
                                dtype=np.float32).reshape(-1, 5)
 
@@ -375,11 +375,14 @@ class RRandomCrop(RandomCrop):
             # allow_negative_crop is False, skip this image.
             if (key == 'gt_bboxes' and not valid_inds.any()
                     and not allow_negative_crop):
+                print('None이 리턴된대요 ...')
                 return None
             results[key] = bboxes[valid_inds, :]
+            print('key~', results[key].shape)
             # label fields. e.g. gt_labels and gt_labels_ignore
             label_key = self.bbox2label.get(key)
             if label_key in results:
+                print('들어왔냐?')
                 results[label_key] = results[label_key][valid_inds]
         return results
 
