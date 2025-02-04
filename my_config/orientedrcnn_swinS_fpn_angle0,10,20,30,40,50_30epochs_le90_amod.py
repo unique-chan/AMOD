@@ -33,16 +33,15 @@ train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(type='RResize',
-        img_scale=[(1280, 960)], # 0.66..x
-        # img_scale=[(1536, 1152), (2340, 1728)], # 0.8x - 1.2x  (1x: 1920x1440)
+        img_scale=[(1536, 1152), (2340, 1728)], # 0.8x - 1.2x  (1x: 1920x1440)
         multiscale_mode='range'),
+    dict(type='RRandomCrop', crop_size=(1024, 1024), allow_negative_crop=False,
+         crop_type='absolute', version=angle_version),
     dict(type='RRandomFlip',
          flip_ratio=[0.25, 0.25, 0.25],
          direction=['horizontal', 'vertical', 'diagonal'],
          version=angle_version),
     dict(type='Normalize', **img_norm_cfg),
-    # dict(type='RRandomCrop', crop_size=(800, 800), allow_negative_crop=False,
-    #      crop_type='absolute', version=angle_version), -> error... why?
     dict(type='Pad', size_divisor=32),
     dict(type='DefaultFormatBundle'),
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
@@ -143,7 +142,7 @@ model = dict(
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=13,
+            num_classes=15,
             bbox_coder=dict(
                 type='DeltaXYWHAOBBoxCoder',
                 angle_range=angle_version,
