@@ -390,7 +390,6 @@ class RRandomCrop(RandomCrop):
             # label fields. e.g. gt_labels and gt_labels_ignore
             label_key = self.bbox2label.get(key)
             if label_key in results:
-                print('들어왔냐?')
                 results[label_key] = results[label_key][valid_inds]
         return results
 
