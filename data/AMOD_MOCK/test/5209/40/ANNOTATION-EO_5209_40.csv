@@ -1,0 +1,4 @@
+usable,main_class,middle_class,sub_class,cx,cy,min_x,min_y,max_x,max_y,x1,y1,x2,y2,x3,y3,x4,y4,arma3_class,id,modified,scaling_w,scaling_h,translation_x,translation_y,rotation,width,height
+T,RADAR,RADAR,64N6E,809.0,464.0,743.0,376.0,863.0,495.0,730,429,846,370,881,441,765,499,pook_64n6e_base,id_5,F,F,F,F,F,F,130.14222988715076,79.1580697086532
+T,Armored,MRAP,M1240,586.0,960.0,542.0,914.0,617.0,977.0,542,941,600,914,617,951,559,977,rhsusf_m1240a1_mk19_usmc_wd,id_7,T,T,T,F,F,F,63.97655820689325,40.718546143004666
+T,Helicopter,AH,Mi-24,877.0,521.0,814.0,459.0,938.0,550.0,807,501,831,450,945,505,920,556,rhs_mi24p_vvs,id_0,F,F,F,F,F,F,56.36488268416781,126.57408897558771

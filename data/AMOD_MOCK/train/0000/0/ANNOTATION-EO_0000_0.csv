@@ -1,0 +1,5 @@
+usable,main_class,middle_class,sub_class,cx,cy,min_x,min_y,max_x,max_y,x1,y1,x2,y2,x3,y3,x4,y4,arma3_class,id,modified,scaling_w,scaling_h,translation_x,translation_y,rotation,width,height
+T,Support,Mil_car,HMMWV,1126.0,1089.0,1111.0,1065.0,1148.0,1128.0,1121,1063,1149,1069,1137,1129,1109,1124,cup_b_nm1097_avenger_usmc_wdl,id_11,F,F,F,F,F,F,28.635642126552707,61.18823416311342
+T,civilian,car,car,890.0,582.0,861.0,553.0,917.0,608.0,902,552,917,568,875,607,860,592,c_offroad_01_repair_f,id_2,F,F,F,F,F,F,21.93171219946131,57.3149195236284
+T,Tank,Tank,leopard1,1014.0,1184.0,988.0,1147.0,1042.0,1251.0,1009,1147,1042,1155,1022,1251,988,1242,gm_ge_army_leopard1a5,id_5,T,T,T,F,T,F,33.95585369269929,98.0612053770501
+T,civilian,asset,asset,1190.0,295.0,1164.0,270.0,1221.0,312.0,1162,290,1213,269,1222,292,1171,312,land_jetenginestarter_01_f,id_8,F,F,F,F,F,F,55.15432893255071,24.698178070456937
