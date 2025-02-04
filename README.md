@@ -25,6 +25,10 @@
 * **[NOTE1]** We only consider single-machine multi-GPU scenarios and do not address cases involving multiple nodes and using Slurm. For explanations related to multi-machine setups and Slurm, please refer to the official documentation of [MMDetection](https://mmdetection.readthedocs.io/en/v2.28.2/) and [MMRotate](https://mmrotate.readthedocs.io/en/v0.3.4/).
 * **[NOTE2]** Please note that our code is developed and tested on Linux. Windows is not officially supported.
 
+### Announcements:
+* Feb 4 2025: You can run mock tests using the small-scale, tailored data we provide. See `data/AMOD_MOCK`!
+
+
 ### Preliminaries:
 
 
