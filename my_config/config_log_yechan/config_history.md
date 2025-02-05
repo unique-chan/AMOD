@@ -36,7 +36,7 @@ CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/con
 ~~~
 
 
-* Rrandomcrop + multiscale
+* Rrandomcrop + multiscale -> train/val
 
 ~~~shell
 DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
