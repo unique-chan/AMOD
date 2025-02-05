@@ -195,7 +195,6 @@ def bbox_overlaps(bboxes1, bboxes2, mode='iou', is_aligned=False, eps=1e-6):
 
     # Batch dim must be the same
     # Batch dim: (B1, B2, ... Bn)
-    print('시발', f'{bboxes1.shape} , {bboxes2.shape}')
 
     assert bboxes1.shape[:-2] == bboxes2.shape[:-2], f'{bboxes1.shape} != {bboxes2.shape}'
     batch_shape = bboxes1.shape[:-2]

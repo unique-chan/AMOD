@@ -377,7 +377,6 @@ class RRandomCrop(RandomCrop):
                 return None
 
             valid_inds = np.atleast_1d(valid_inds)
-            print('**', valid_inds.shape, valid_inds)
 
             results[key] = bboxes[valid_inds, :]
             # label fields. e.g. gt_labels and gt_labels_ignore
