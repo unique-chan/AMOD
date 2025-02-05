@@ -37,6 +37,7 @@ class AMODDataset(CustomDataset):
                  version: str = 'le90',
                  width: int = 1920,
                  height: int = 1440,
+                 ext: str = 'png',
                  angles: Optional[List[int]] = None,
                  **kwargs) -> None:
         """
@@ -49,6 +50,8 @@ class AMODDataset(CustomDataset):
              👉 e.g. 'eo' or 'ir'
             version: representation format of oriented bounding boxes (compatible with your detection models)
              👉 e.g. 'le90' or 'le135' or 'oc'
+            ext: image file extension
+             👉 e.g. 'png' or 'jpg'
             angles: list of angles (look_angles) used during training/test in our AMOD dataset
              👉 e.g. [0, 10, 20, 30, 40, 50], which means using all look angles available in AMOD
             **kwargs: a syntax in Python that allows a function to accept an arbitrary number of keyword arguments
@@ -97,7 +100,7 @@ class AMODDataset(CustomDataset):
                     obb_bboxes = obb_bboxes[valid_labels_inds]
 
                     data_info_list.append({
-                        'filename': f'{sample_idx}/{angle}/{self.modality}_{sample_idx}_{angle}.png',
+                        'filename': f'{sample_idx}/{angle}/{self.modality}_{sample_idx}_{angle}.{self.ext}',
                         'width': self.width, 'height': self.height,
                         'ann': {
                             'bboxes': obb_bboxes,
