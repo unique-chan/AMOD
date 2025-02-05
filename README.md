@@ -1,3 +1,7 @@
+<p align="center">
+    <img alt="Welcome" src="logo.png" />
+</p>
+
 <h1 align="center" >
 🕹️ Official Experiment Kit for AMOD
 </h1>
