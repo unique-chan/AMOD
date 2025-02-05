@@ -9,6 +9,11 @@ sshfs [원격서버_사용자명]@[원격서버_IP주소]:/원격/데이터/경�
 원격서버 비밀번호 입력
 ~~~
 
+마운트 후, 우분투 디스크 rw 권한 강제 부여
+~~~
+sudo chmod a+rwx MLV-2TB
+~~~
+
 원격 서버에서 Tensorboard 키고, 내 PC에서 보는 법
 ~~~shell
 # 원격 서버에서 할 일
@@ -75,4 +80,28 @@ CUDA_VISIBLE_DEVICES=0 PORT=29501 ./mmrotate/tools/dist_test.sh \
   my_config/config_log_yechan/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
   my_config/config_log_yechan/best_mAP_epoch_12.pth \
  1 --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP --eval-options iou_thr=0.5,0.75
+~~~
+
+* Confusion Matrix 그리기 (내 로컬 PC)
+1) test.pkl 파일 저장하기
+~~~shell
+cd ../..
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+           my_config/config_log_yechan/best_mAP_epoch_12.pth --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP \
+           --out "./test.pkl"  --eval-options iou_thr=0.5
+~~~
+
+2) 저장한 test.pkl 파일을 활용하여 confusion matrix 그리기
+~~~shell
+# color-theme? Blues, Greens, Oranges, Reds, viridis, plasma, inferno, magma, cividis, Greys
+cd ../..
+mkdir ./confusion_matrix_results
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/analysis_tools/confusion_matrix.py \
+         my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+         "./test.pkl" \
+         "./confusion_matrix_results" --color-theme 'plasma' --show \
+         --tp-iou-thr 0.5 \
+         --cfg-options data.test.data_root="$DATA_ROOT" 
 ~~~
