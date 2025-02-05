@@ -85,25 +85,39 @@
 You can use the following commands to infer a dataset.
 ~~~shell
 # Single-gpu
-python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [optional arguments]
+python mmrotate/tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [optional arguments]
 
 # Multi-gpu
-./tools/dist_test.sh ${CONFIG_FILE} ${CHECKPOINT_FILE} ${GPU_NUM} [optional arguments]
+./mmrotate/tools/dist_test.sh ${CONFIG_FILE} ${CHECKPOINT_FILE} ${GPU_NUM} [optional arguments]
 ~~~
 
 Examples:
 
-🚧 Under construction!
+* Test OrientedRCNN with Swin-S pretrained on AMOD
+  * Please download our pretrained weights [here](#)!
+  * Run the following command:
+
+  ~~~shell
+  python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+         [path/to/pretrained_weights/*.pth] --eval mAP
+  ~~~
+
+  * If you want to change the data root path?
+  ~~~shell
+  DATA_ROOT="data/AMOD_MOCK/"
+  python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+         [path/to/pretrained_weights/*.pth] -cfg-options data.test.data_root="$DATA_ROOT" --eval mAP
+  ~~~
 
 
 ### Train a model:
 You can use the following commands to train a model from the dataset.
 ~~~shell
 # Single-gpu
-python tools/train.py ${CONFIG_FILE} [optional arguments]
+python mmrotate/tools/train.py ${CONFIG_FILE} [optional arguments]
 
 # Multi-gpu
-./tools/dist_train.sh ${CONFIG_FILE} ${GPU_NUM} [optional arguments]
+./mmrotate/tools/dist_train.sh ${CONFIG_FILE} ${GPU_NUM} [optional arguments]
 ~~~
 
 **Optional arguments** are:
@@ -114,8 +128,8 @@ python tools/train.py ${CONFIG_FILE} [optional arguments]
 
 **Launch multiple jobs on a single machine**: If you launch multiple jobs on a single machine, e.g., 2 jobs of 4-GPU training on a machine with 8 GPUs, you need to specify different ports (29500 by default) for each job to avoid communication conflict.
 ~~~shell
-CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./tools/dist_train.sh ${CONFIG_FILE} 4 [optional arguments]
-CUDA_VISIBLE_DEVICES=4,5,6,7 PORT=29501 ./tools/dist_train.sh ${CONFIG_FILE} 4 [optional arguments]
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh ${CONFIG_FILE} 4 [optional arguments]
+CUDA_VISIBLE_DEVICES=4,5,6,7 PORT=29501 ./mmrotate/tools/dist_train.sh ${CONFIG_FILE} 4 [optional arguments]
 ~~~
 
 Examples:
