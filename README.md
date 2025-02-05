@@ -23,14 +23,13 @@
   <a href="#"><img alt="Apache-2.0" src="https://img.shields.io/badge/License-Apache 2.0-green?logo=Apache"></a>
 </p>
 
+<hr>
+
 <p align="center">
   Correspondence to 
   <b>Yechan Kim</b> and
   <b>SooYeon Kim</b>
 </p>
-
-<hr>
-
 
 ### This repo includes:
 * Dataset download link for AMOD! (*To do*)
