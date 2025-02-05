@@ -8,12 +8,6 @@
  🛠️ Official Experiment Kit: Dataset and Code
 </h3>
 
-<!--
-<h3 align="center">
- Here, AMOD refers to our dataset, <u>A</u>rma3 <u>M</u>ilitary <u>O</u>bject <u>D</u>etection (🪖) in optical satellite imagery (🛰️)!
-</h3>
--->
-
 <p align="center">
   <a href="#"><img alt="Python3.7+" src="https://img.shields.io/badge/Python-3.7+-blue?logo=python&logoColor=white"></a>
   <a href="#"><img alt="PyTorch1.5~1.10.2" src="https://img.shields.io/badge/PyTorch-≥1.5, ≤1.10-orange?logo=pytorch&logoColor=white"></a>
@@ -30,6 +24,10 @@
   <b>Yechan Kim</b> and
   <b>SooYeon Kim</b>
 </p>
+
+### What is AMOD?
+* Here, `AMOD` refers to our large-scale synthetic dataset, <u>A</u>rma3 <u>M</u>ilitary <u>O</u>bject <u>D</u>etection in optical satellite imagery (🛰️)!
+* For additional information, we direct readers to [our paper](#). (*To do*)
 
 ### This repo includes:
 * Dataset download link for AMOD! (*To do*)
