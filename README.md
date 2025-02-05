@@ -102,14 +102,18 @@ Examples:
          [path/to/pretrained_weights/*.pth] --eval mAP
   ~~~
 
-  * If you want to change the data root path?
-  ~~~shell
-  DATA_ROOT="data/AMOD_MOCK/"
-  python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
-         [path/to/pretrained_weights/*.pth] -cfg-options data.test.data_root="$DATA_ROOT" --eval mAP
-  ~~~
-
-
+  * <details>
+    <summary>If you want to change the data root path through Python arguments?</summary>
+    
+      ~~~shell
+      DATA_ROOT="data/AMOD_MOCK/"
+      python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+             [path/to/pretrained_weights/*.pth] -cfg-options data.test.data_root="$DATA_ROOT" --eval mAP
+      ~~~ 
+  
+    </details>
+  
+  
 ### Train a model:
 You can use the following commands to train a model from the dataset.
 ~~~shell
