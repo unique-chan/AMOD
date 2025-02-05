@@ -35,8 +35,8 @@ train_pipeline = [
     dict(type='RResize',
         img_scale=[(1536, 1152), (2340, 1728)], # 0.8x - 1.2x  (1x: 1920x1440)
         multiscale_mode='range'),
-    dict(type='RandomCrop', crop_size=(1024, 1024), allow_negative_crop=False,
-         crop_type='absolute'),
+    dict(type='RRandomCrop', crop_size=(1024, 1024), allow_negative_crop=False,
+         crop_type='absolute', version=angle_version),
     dict(type='RRandomFlip',
          flip_ratio=[0.25, 0.25, 0.25],
          direction=['horizontal', 'vertical', 'diagonal'],
