@@ -159,7 +159,7 @@ class AMODDataset(CustomDataset):
                 mean_ap, _ = eval_rbbox_map(
                     results,
                     annotations,
-                    iou_thr=0.5,
+                    iou_thr=iou_thr,
                     use_07_metric=use_07_metric,
                     dataset=self.CLASSES,
                     logger=logger,
