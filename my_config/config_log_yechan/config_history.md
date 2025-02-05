@@ -72,7 +72,7 @@ cd ../..
 DATA_ROOT="data/AMOD_MOCK/"
 chmod +x ./mmrotate/tools/dist_test.sh
 CUDA_VISIBLE_DEVICES=0 PORT=29501 ./mmrotate/tools/dist_test.sh \
-  my_config/config_log_yechan/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90-multisize_rrandomcroptest_amod.py \
-  my_config/config_log_yechan/best_mAP_epoch_9.pth \
- 1 --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP
+  my_config/config_log_yechan/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+  my_config/config_log_yechan/best_mAP_epoch_12.pth \
+ 1 --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP --eval-options iou_thr=0.5,0.75
 ~~~

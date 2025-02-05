@@ -95,11 +95,11 @@ Examples:
 
 * Test OrientedRCNN with Swin-S pretrained on AMOD
   * Please download our pretrained weights [here](#)!
-  * Run the following command:
+  * Run the following command to get AP50, AP75:
 
   ~~~shell
   python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
-         [path/to/pretrained_weights/*.pth] --eval mAP
+         [path/to/pretrained_weights/*.pth] --eval mAP --eval-options iou_thr=0.5,0.75
   ~~~
 
   * <details>
@@ -108,7 +108,8 @@ Examples:
       ~~~shell
       DATA_ROOT="data/AMOD_MOCK/"
       python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
-             [path/to/pretrained_weights/*.pth] -cfg-options data.test.data_root="$DATA_ROOT" --eval mAP
+             [path/to/pretrained_weights/*.pth] -cfg-options data.test.data_root="$DATA_ROOT" --eval mAP \
+             --eval-options iou_thr=0.5,0.75
       ~~~ 
   
     </details>
