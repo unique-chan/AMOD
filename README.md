@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center" >
-💬 Official Experiment Kit for AMOD
+🛠️ Official Experiment Kit for AMOD
 </h1>
 
 <!--
