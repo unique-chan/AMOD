@@ -138,17 +138,6 @@ Examples:
       </details>
   
   
-  cd ../..
-mkdir ./confusion_matrix_results
-DATA_ROOT="data/AMOD_MOCK/"
-python mmrotate/tools/analysis_tools/confusion_matrix.py \
-         my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
-         "./test.pkl" \
-         "./confusion_matrix_results" --color-theme 'plasma' --show \
-         --tp-iou-thr 0.5 \
-         --cfg-options data.test.data_root="$DATA_ROOT" 
-  
-  
 ### Train a model:
 You can use the following commands to train a model from the dataset.
 ~~~shell
