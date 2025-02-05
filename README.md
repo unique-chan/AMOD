@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Welcome" src="./mmrotate/logo.png" />
+    <img alt="Welcome" src="./mmrotate/Logo.png" />
 </p>
 
 <h1 align="center" >
