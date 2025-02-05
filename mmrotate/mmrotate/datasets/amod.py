@@ -67,6 +67,7 @@ class AMODDataset(CustomDataset):
         self.angles = angles
         self.modality = modality.upper()
         self.width, self.height = width, height
+        self.ext = ext
 
         super(AMODDataset, self).__init__(ann_file, pipeline, **kwargs)
 
