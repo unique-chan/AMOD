@@ -104,11 +104,11 @@ Examples:
         <summary>If you want to change the data root path through Python arguments?</summary>
       
     * ~~~shell
-    DATA_ROOT="data/AMOD_MOCK/"
-    python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+      DATA_ROOT="data/AMOD_MOCK/"
+      python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
                [path/to/pretrained_weights/*.pth] --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP \
                --eval-options iou_thr=0.5,0.75
-    ~~~ 
+      ~~~ 
     
         </details>
 
