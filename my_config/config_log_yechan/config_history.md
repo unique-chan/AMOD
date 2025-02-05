@@ -36,23 +36,12 @@ CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/con
 ~~~
 
 
-* RRandomCrop -> 실패
+* Rrandomcrop + multiscale
 
 ~~~shell
 DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
 chmod +x ./mmrotate/tools/dist_train.sh
-CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90-rrandomcroptest_amod.py 2 \
+CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90-multisize_rrandomcroptest_amod.py 2 \
  --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
-               runner.max_epochs=1 data.samples_per_gpu=4
+               runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
-
-* RandomCrop -> 실패
-
-~~~shell
-DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
-chmod +x ./mmrotate/tools/dist_train.sh
-CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90-randomcroptest_amod.py 2 \
- --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
-               runner.max_epochs=1 data.samples_per_gpu=4
-~~~
-
