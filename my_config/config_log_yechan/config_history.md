@@ -42,7 +42,7 @@ python mmrotate/tools/train.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,
 
 2025-02-04 
 
-* 멀티 GPU 훈련 실험 -> 성공
+* 멀티 GPU 훈련 실험 -> 성공 (172.26.19.26)
 
 ~~~shell
 DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
@@ -54,7 +54,7 @@ CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/con
 
 2025-02-05
 
-* RRandomcrop + Multiscale -> Train/Val -> 성공
+* RRandomcrop + Multiscale -> Train/Val -> 성공 (172.26.19.26)
 
 ~~~shell
 DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
@@ -64,7 +64,7 @@ CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/con
                runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
 
-* 멅티 GPU 테스트 코드 -> 성공
+* 멅티 GPU 테스트 코드 -> 성공 (172.26.19.26)
 
 ~~~shell
 DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
