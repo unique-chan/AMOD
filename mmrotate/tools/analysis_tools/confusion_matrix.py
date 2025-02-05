@@ -226,6 +226,8 @@ def plot_confusion_matrix(confusion_matrix,
     if save_dir is not None:
         plt.savefig(
             os.path.join(save_dir, 'confusion_matrix.png'), format='png')
+        plt.savefig(
+            os.path.join(save_dir, 'confusion_matrix.svg'), format='svg')
     if show:
         plt.show()
 
