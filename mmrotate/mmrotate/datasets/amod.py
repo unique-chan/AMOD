@@ -33,7 +33,10 @@ class AMODDataset(CustomDataset):
     def __init__(self,
                  ann_file: str,
                  pipeline: Optional[List[dict]],
+                 modality: str = 'eo',
                  version: str = 'le90',
+                 width: int = 1920,
+                 height: int = 1440,
                  angles: Optional[List[int]] = None,
                  **kwargs) -> None:
         """
@@ -42,6 +45,8 @@ class AMODDataset(CustomDataset):
              👉 e.g. 'data/split_1024_dota1_0/trainval/annfiles/'
             pipeline: list of data pre-processing strategies
              👉 e.g. [dict(type='LoadImageFromFile'), dict(type='LoadAnnotations', with_bbox=True), ...]
+            modality: 'eo' or 'ir'
+             👉 e.g. 'eo' or 'ir'
             version: representation format of oriented bounding boxes (compatible with your detection models)
              👉 e.g. 'le90' or 'le135' or 'oc'
             angles: list of angles (look_angles) used during training/test in our AMOD dataset
@@ -57,6 +62,8 @@ class AMODDataset(CustomDataset):
         self.version = version
         self.cat2label = {cat: i for i, cat in enumerate(self.CLASSES)}
         self.angles = angles
+        self.modality = modality.upper()
+        self.width, self.height = width, height
 
         super(AMODDataset, self).__init__(ann_file, pipeline, **kwargs)
 
@@ -68,7 +75,7 @@ class AMODDataset(CustomDataset):
             for angle in self.angles:
                 try:
                     annot_df = pd.read_csv(
-                        f'{self.img_prefix}/{sample_idx}/{angle}/ANNOTATION-EO_{sample_idx}_{angle}.csv'
+                        f'{self.img_prefix}/{sample_idx}/{angle}/ANNOTATION-{self.modality}_{sample_idx}_{angle}.csv'
                     ).query('usable == "T"')
 
                     if not len(annot_df):
@@ -90,8 +97,8 @@ class AMODDataset(CustomDataset):
                     obb_bboxes = obb_bboxes[valid_labels_inds]
 
                     data_info_list.append({
-                        'filename': f'{sample_idx}/{angle}/EO_{sample_idx}_{angle}.png',
-                        'width': 1920, 'height': 1440,
+                        'filename': f'{sample_idx}/{angle}/{self.modality}_{sample_idx}_{angle}.png',
+                        'width': self.width, 'height': self.height,
                         'ann': {
                             'bboxes': obb_bboxes,
                             'labels': labels,
