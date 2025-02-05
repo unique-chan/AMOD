@@ -3,12 +3,14 @@
 </p>
 
 <h1 align="center" >
-🕹️ Official Experiment Kit for AMOD
+💬 Official Experiment Kit for AMOD
 </h1>
 
+<!--
 <h3 align="center">
-💬 Here, AMOD refers to our dataset, <u>A</u>rma3 <u>M</u>ilitary <u>O</u>bject <u>D</u>etection (🪖) in optical satellite imagery (🛰️)!
+ Here, AMOD refers to our dataset, <u>A</u>rma3 <u>M</u>ilitary <u>O</u>bject <u>D</u>etection (🪖) in optical satellite imagery (🛰️)!
 </h3>
+-->
 
 <p align="center">
   <a href="#"><img alt="Python3.7+" src="https://img.shields.io/badge/Python-3.7+-blue?logo=python&logoColor=white"></a>
@@ -25,6 +27,7 @@
 </p>
 
 ### This repo includes:
+* Dataset link for AMOD! (*To do*)
 * Training & test code for AMOD!
 * **[NOTE1]** We only consider single-machine multi-GPU scenarios and do not address cases involving multiple nodes and using Slurm. For explanations related to multi-machine setups and Slurm, please refer to the official documentation of [MMDetection](https://mmdetection.readthedocs.io/en/v2.28.2/) and [MMRotate](https://mmrotate.readthedocs.io/en/v0.3.4/).
 * **[NOTE2]** Please note that our code is developed and tested on Linux. Windows is not officially supported.
