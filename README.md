@@ -95,24 +95,58 @@ Examples:
 
 * Test OrientedRCNN with Swin-S pretrained on AMOD
   * Please download our pretrained weights [here](#)!
-  * Run the following command to get AP50, AP75:
-
+  * Run the following command to get AP50, AP75 of test split of AMOD:
   ~~~shell
   python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
          [path/to/pretrained_weights/*.pth] --eval mAP --eval-options iou_thr=0.5,0.75
   ~~~
+  * <details>
+        <summary>If you want to change the data root path through Python arguments?</summary>
+      
+    * ~~~shell
+    DATA_ROOT="data/AMOD_MOCK/"
+    python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+               [path/to/pretrained_weights/*.pth] --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP \
+               --eval-options iou_thr=0.5,0.75
+    ~~~ 
+    
+        </details>
 
   * <details>
-    <summary>If you want to change the data root path through Python arguments?</summary>
+      <summary>If you want to get a confusion matrix?</summary>
     
-      ~~~shell
-      DATA_ROOT="data/AMOD_MOCK/"
-      python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
-             [path/to/pretrained_weights/*.pth] -cfg-options data.test.data_root="$DATA_ROOT" --eval mAP \
-             --eval-options iou_thr=0.5,0.75
-      ~~~ 
+    * You have to save the prediction results as a `.pkl` file using `--out` in `test.py`. 
+    ~~~shell
+    DATA_ROOT="data/AMOD_MOCK/"
+    python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+               [path/to/pretrained_weights/*.pth] --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP \
+               --eval-options iou_thr=0.5 --out "./test.pkl" 
+    ~~~    
+
+    * Then, run the following code:
+    ~~~shell
+    DATA_ROOT="data/AMOD_MOCK/"
+    mkdir ./confusion_matrix_results
+    python mmrotate/tools/analysis_tools/confusion_matrix.py \
+             my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+             ./test.pkl \
+             ./confusion_matrix_results --color-theme 'viridis' --show \
+             --tp-iou-thr 0.5 \
+             --cfg-options data.test.data_root="$DATA_ROOT" 
+     ~~~ 
+    
+      </details>
   
-    </details>
+  
+  cd ../..
+mkdir ./confusion_matrix_results
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/analysis_tools/confusion_matrix.py \
+         my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+         "./test.pkl" \
+         "./confusion_matrix_results" --color-theme 'plasma' --show \
+         --tp-iou-thr 0.5 \
+         --cfg-options data.test.data_root="$DATA_ROOT" 
   
   
 ### Train a model:
