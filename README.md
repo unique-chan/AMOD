@@ -13,8 +13,7 @@
   <a href="#"><img alt="PyTorch1.5~1.10.2" src="https://img.shields.io/badge/PyTorch-≥1.5, ≤1.10-orange?logo=pytorch&logoColor=white"></a>
   <a href="#"><img alt="MMDetection2.28.2" src="https://img.shields.io/badge/MMDetection-2.28.2-red?logo=mmlab&logoColor=white"></a>
   <a href="#"><img alt="MMRotate0.3.4" src="https://img.shields.io/badge/MMRotate-0.3.4-hotpink?logo=mmlab&logoColor=white"></a>
-  <a href="#"><img alt="ARMA3" src="https://img.shields.io/badge/Game-ARMA3-red?logo=steam"></a>
-  <a href="#"><img alt="Apache-2.0" src="https://img.shields.io/badge/License-Apache 2.0-green?logo=Apache"></a>
+  <a href="#"><img alt="ARMA3" src="https://img.shields.io/badge/Game-ARMA3-green?logo=steam"></a>
 </p>
 
 <hr>
