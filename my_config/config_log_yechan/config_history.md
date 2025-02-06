@@ -164,7 +164,7 @@ CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/con
                runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
 
-* 실험 아직 안돌림... 돌려야 함. (데이터를 1/2, 3/4으로 줄이면?)
+* 실험 아직 안돌림... 돌려야 함. (데이터를 1/2, 3/4으로 줄이면?) -> 수연이가 돌리는 중...
 ~~~shell
 DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
 chmod +x ./mmrotate/tools/dist_train.sh
