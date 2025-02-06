@@ -2,6 +2,8 @@
 dataset_type = 'AMODDataset'
 angles = [10]
 data_root = 'data/AMOD_V1/'         # Important: should be ended with '/'
+modality = 'EO'                     # 'eo' or 'ir'
+img_extension = 'png'               # 'png' or 'jpg'
 load_from = None
 resume_from = None
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -65,11 +67,11 @@ data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2,
     train=dict(type=dataset_type, data_root=data_root, ann_file='train.txt', img_prefix='train', angles=angles,
-               pipeline=train_pipeline, version=angle_version),
+               pipeline=train_pipeline, version=angle_version, modality=modality, ext=img_extension),
     val=dict(type=dataset_type, data_root=data_root, ann_file='val.txt', img_prefix='train', angles=angles,
-             pipeline=test_pipeline, version=angle_version),
+             pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension),
     test=dict(type=dataset_type, data_root=data_root, ann_file='test.txt', img_prefix='test', angles=angles,
-              pipeline=test_pipeline, version=angle_version)
+              pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension)
 )
 
 
