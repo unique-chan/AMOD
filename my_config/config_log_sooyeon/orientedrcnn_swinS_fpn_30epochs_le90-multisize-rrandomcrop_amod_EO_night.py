@@ -1,9 +1,9 @@
 # 🚩 DEFAULT CONFIG ####################################################################################################
 dataset_type = 'AMODDataset'
-angles = [0]
-data_root = '/media/kimsooyeon/SY/altis/'       
+angles = [1]
+data_root = '/media/kimsooyeon/SY/altis/'    
 modality = 'EO'                     # 'eo' or 'ir'
-img_extension = 'png'     # Important: should be ended with '/'
+img_extension = 'png'        # Important: should be ended with '/'
 load_from = None
 resume_from = None
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -18,7 +18,7 @@ lr_config = dict(
     warmup_ratio=0.3333333333333333,
     step=[16, 22]
 )
-runner = dict(type='EpochBasedRunner', max_epochs=50)
+runner = dict(type='EpochBasedRunner', max_epochs=30)
 checkpoint_config = dict(interval=-1) # save only when val mAP is best
 log_config = dict(interval=50, hooks=[dict(type='TextLoggerHook'),
                                       dict(type='TensorboardLoggerHook')])
@@ -67,11 +67,11 @@ data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2,
     train=dict(type=dataset_type, data_root=data_root, ann_file='train.txt', img_prefix='train', angles=angles,
-               pipeline=train_pipeline, version=angle_version),
+               pipeline=train_pipeline, version=angle_version, modality=modality, ext=img_extension),
     val=dict(type=dataset_type, data_root=data_root, ann_file='val.txt', img_prefix='train', angles=angles,
-             pipeline=test_pipeline, version=angle_version),
+             pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension),
     test=dict(type=dataset_type, data_root=data_root, ann_file='test.txt', img_prefix='test', angles=angles,
-              pipeline=test_pipeline, version=angle_version)
+              pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension)
 )
 
 
