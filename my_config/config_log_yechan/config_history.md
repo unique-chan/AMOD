@@ -181,10 +181,10 @@ CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/con
                runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
 
-* 내 PC -> 에폭을 더 늘려볼까? 100 에폭 (LR 업데이트 설정은 그대로...)
+* 172.26.19.172 -> 에폭을 더 늘려볼까? 100 에폭 (LR 업데이트 설정은 그대로...)
 
 ~~~shell
-DATA_ROOT="/media/yechani9/T5EVO/data/AMOD_V1_FINAL_OPTICAL/"
+DATA_ROOT="/media/t5evo/data/AMOD_V1_FINAL_OPTICAL/"
 python mmrotate/tools/train.py  my_config/config_log_yechan/orientedrcnn_swinS_fpn_angle_all_100epochs_le90_amod.py \
  --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
                runner.max_epochs=100 data.samples_per_gpu=4
