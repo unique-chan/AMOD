@@ -109,21 +109,22 @@ Examples:
   python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
          [path/to/pretrained_weights/*.pth] --eval mAP --eval-options iou_thr=0.5,0.75
   ~~~
-  * <details>
-        <summary>If you want to change the data root path through Python arguments?</summary>
-      
-    * ~~~shell
-      DATA_ROOT="data/AMOD_MOCK/"
-      python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
-               [path/to/pretrained_weights/*.pth] --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP \
-               --eval-options iou_thr=0.5,0.75
-      ~~~ 
-    
-        </details>
 
-  * <details>
-      <summary>If you want to get a confusion matrix?</summary>
-    
+* <details>
+    <summary>If you want to change the data root path through Python arguments?</summary>
+  
+  ~~~shell
+  DATA_ROOT="data/AMOD_MOCK/"
+  python mmrotate/tools/test.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+           [path/to/pretrained_weights/*.pth] --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP \
+           --eval-options iou_thr=0.5,0.75
+  ~~~ 
+
+    </details>
+
+* <details>
+  <summary>If you want to get a confusion matrix?</summary>
+
     * You have to save the prediction results as a `.pkl` file using `--out` in `test.py`. 
     ~~~shell
     DATA_ROOT="data/AMOD_MOCK/"
@@ -131,7 +132,7 @@ Examples:
                [path/to/pretrained_weights/*.pth] --cfg-options data.test.data_root="$DATA_ROOT" --eval mAP \
                --eval-options iou_thr=0.5 --out "./test.pkl" 
     ~~~    
-
+    
     * Then, run the following code:
     ~~~shell
     DATA_ROOT="data/AMOD_MOCK/"
@@ -143,8 +144,8 @@ Examples:
              --tp-iou-thr 0.5 \
              --cfg-options data.test.data_root="$DATA_ROOT" 
      ~~~ 
-    
-      </details>
+
+  </details>
   
   
 ### Train a model:
@@ -173,7 +174,7 @@ Examples:
 
 * Train OrientedRCNN with Swin-S on train set of AMOD. 
   * Tip1: Please read carefully both `Preferred` and `Bad` examples! (🚨)
-  * Tip2: You can directly modify config file instead of using `--cfg-options` (Do not over-use)!
+  * Tip2: You may use `--cfg-options` to instantly and temporally modify the config file. (Do not over-use)!
   * <details>
     <summary> Preferred example (👌): </summary>
 
