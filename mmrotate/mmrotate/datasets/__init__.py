@@ -6,4 +6,5 @@ from .pipelines import *  # noqa: F401, F403
 from .sar import SARDataset  # noqa: F401, F403
 from .amod import *  # noqa: F401, F403
 
-__all__ = ['SARDataset', 'DOTADataset', 'build_dataset', 'HRSCDataset', 'AMODDataset']
+__all__ = ['SARDataset', 'DOTADataset', 'build_dataset', 'HRSCDataset',
+           'AMODDataset', 'AMODFineGrainedDataset']
