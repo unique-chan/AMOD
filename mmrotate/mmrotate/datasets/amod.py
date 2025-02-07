@@ -27,8 +27,8 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
         'Tank': (255, 122, 0),
         'TEL': (121, 85, 72),
     }
-    CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
-    PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
+    CLASSES = list(CLASSES_PALETTE_COMBINATION_DIC.keys())
+    PALETTE = list(CLASSES_PALETTE_COMBINATION_DIC.values())
 
     def __init__(self,
                  ann_file: str,
@@ -39,6 +39,7 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
                  height: int = 1440,
                  ext: str = 'png',
                  angles: Optional[List[int]] = None,
+                 allow_civilian: bool = False,
                  **kwargs) -> None:
         """
         Args:
@@ -61,7 +62,11 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
             angles = [0, ]
         if '\\' in kwargs['data_root']:                                     # if spacing is needed
             kwargs['data_root'] = kwargs['data_root'].replace('\\', ' ')
-        print(f'▶️ [AMOD] Initializing with angles: {angles}, ann_file: {ann_file}, kwargs: {kwargs}')
+        print(f'▶️ [{self.__class__.__name__}] Initializing with angles: {angles}, '
+              f'ann_file: {ann_file}, kwargs: {kwargs}')
+        if allow_civilian:
+            self.CLASSES.append('civilian')
+            self.PALETTE.append((0, 0, 0))
         self.version = version
         self.cat2label = {cat: i for i, cat in enumerate(self.CLASSES)}
         self.angles = angles
