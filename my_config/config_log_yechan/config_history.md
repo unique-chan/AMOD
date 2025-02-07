@@ -164,7 +164,7 @@ CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/con
                runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
 
-* 실험 아직 안돌림... 돌려야 함. (데이터를 1/2, 3/4으로 줄이면?)
+* 실험 아직 안돌림... 돌려야 함. (데이터를 1/2, 3/4으로 줄이면?) -> 수연이가 돌리는 중...
 ~~~shell
 DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
 chmod +x ./mmrotate/tools/dist_train.sh
@@ -179,5 +179,14 @@ chmod +x ./mmrotate/tools/dist_train.sh
 CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py 2 \
  --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
                runner.max_epochs=30 data.samples_per_gpu=4
+~~~
+
+* 172.26.19.172 -> 에폭을 더 늘려볼까? 100 에폭 (LR 업데이트 설정은 그대로...)
+
+~~~shell
+DATA_ROOT="/media/t5evo/data/AMOD_V1_FINAL_OPTICAL/"
+python mmrotate/tools/train.py  my_config/config_log_yechan/orientedrcnn_swinS_fpn_angle_all_100epochs_le90_amod.py \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=100 data.samples_per_gpu=4
 ~~~
 

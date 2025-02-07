@@ -1,7 +1,7 @@
 # 🚩 DEFAULT CONFIG ####################################################################################################
 dataset_type = 'AMODDataset'
-angles = [0, 10, 20, 30, 40, 50]
-data_root = '/media/kimsooyeon/SY/AMOD_V1_FINAL_OPTICAL/'         # Important: should be ended with '/'
+angles = [0,10,20,30,40,50]
+data_root = 'data/AMOD_V1/'         # Important: should be ended with '/'
 modality = 'EO'                     # 'eo' or 'ir'
 img_extension = 'png'               # 'png' or 'jpg'
 load_from = None
@@ -65,8 +65,8 @@ test_pipeline = [
 ]
 data = dict(
     samples_per_gpu=2,
-    workers_per_gpu=4,
-    train=dict(type=dataset_type, data_root=data_root, ann_file='train_ThreeFourth.txt', img_prefix='train', angles=angles,
+    workers_per_gpu=2,
+    train=dict(type=dataset_type, data_root=data_root, ann_file='train.txt', img_prefix='train', angles=angles,
                pipeline=train_pipeline, version=angle_version, modality=modality, ext=img_extension),
     val=dict(type=dataset_type, data_root=data_root, ann_file='val.txt', img_prefix='train', angles=angles,
              pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension),
