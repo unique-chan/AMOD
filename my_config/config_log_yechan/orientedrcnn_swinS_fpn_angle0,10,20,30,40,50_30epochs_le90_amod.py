@@ -4,6 +4,8 @@ angles = [0, 10, 20, 30, 40, 50]
 data_root = 'data/AMOD_V1/'         # Important: should be ended with '/'
 modality = 'EO'                     # 'eo' or 'ir'
 img_extension = 'png'               # 'png' or 'jpg'
+num_classes = 25                    # AMOD -> 13, AMOD_FG -> 25 (if civilian allowed? +1!)
+allow_civilian = False
 load_from = None
 resume_from = None
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -67,11 +69,14 @@ data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2,
     train=dict(type=dataset_type, data_root=data_root, ann_file='train.txt', img_prefix='train', angles=angles,
-               pipeline=train_pipeline, version=angle_version, modality=modality, ext=img_extension),
+               pipeline=train_pipeline, version=angle_version, modality=modality, ext=img_extension,
+               allow_civilian=allow_civilian),
     val=dict(type=dataset_type, data_root=data_root, ann_file='val.txt', img_prefix='train', angles=angles,
-             pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension),
+             pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension,
+             allow_civilian=allow_civilian),
     test=dict(type=dataset_type, data_root=data_root, ann_file='test.txt', img_prefix='test', angles=angles,
-              pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension)
+              pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension,
+              allow_civilian=allow_civilian)
 )
 
 
@@ -144,7 +149,7 @@ model = dict(
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=13,
+            num_classes=num_classes,
             bbox_coder=dict(
                 type='DeltaXYWHAOBBoxCoder',
                 angle_range=angle_version,
