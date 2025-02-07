@@ -48,40 +48,47 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh /home/gpu
 
 2025-02-07
 
-* my ubuntu / AMOD 데이터 -> 3/4 sample 버전 testset mAP 
+*  gpuadmin@172.26.49.150
+*  단일 각도, 다중 각도, 다중 각도 sampling version ( 1/2 1/6 3/4 ) -> test mAP 계산 ( 0.5 0.75 ) 
+*  아래 코드에서 angles, pretrained weight 경로 변경하여 모두 실험 중
 
 
 ~~~shell
- 
 
-python ./mmrotate/tools/test.py ./my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py \
-       ./work_dirs/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod/best_mAP_epoch_28.pth \
-        --eval mAP --out "./AMOD_all_test/angle0/test.pkl"  --eval-options iou_thr=0.5   --cfg-options data.test.angles=[0,] \
-        --work-dir "./AMOD_all_test/angle0"
+/home/gpuadmin/SY/AMOD-ExpKit/mmrotate/tools/dist_test.sh \
+  /home/gpuadmin/SY/AMOD-ExpKit/my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py  \
+  /home/gpuadmin/SY/AMOD_pretrained_weight/orientedrcnn_swinS_fpn_angle0_30epochs_le90_amod/best_mAP_epoch_21.pth 4\
+  --eval mAP --out "./AMOD_all_test/angle0_0/test.pkl"  --eval-options iou_thr=0.5,0.75 --cfg-options data.test.angles=[0,] \
+  --work-dir "./AMOD_all_test/angle0_0"
 
-python ./mmrotate/tools/test.py ./my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py \
-       ./work_dirs/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod/best_mAP_epoch_28.pth \
-        --eval mAP --out "./AMOD_all_test/angle10/test.pkl"  --eval-options iou_thr=0.5   --cfg-options data.test.angles=[10,] \
-        --work-dir "./AMOD_all_test/angle10"
+/home/gpuadmin/SY/AMOD-ExpKit/mmrotate/tools/dist_test.sh \
+  /home/gpuadmin/SY/AMOD-ExpKit/my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py  \
+  /home/gpuadmin/SY/AMOD_pretrained_weight/orientedrcnn_swinS_fpn_angle0_30epochs_le90_amod/best_mAP_epoch_21.pth 4\
+  --eval mAP --out "./AMOD_all_test/angle0_10/test.pkl"  --eval-options iou_thr=0.5,0.75 --cfg-options data.test.angles=[10,] \
+  --work-dir "./AMOD_all_test/angle0_10"
 
-python ./mmrotate/tools/test.py ./my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py \
-       ./work_dirs/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod/best_mAP_epoch_28.pth \
-        --eval mAP --out "./AMOD_all_test/angle20/test.pkl"  --eval-options iou_thr=0.5   --cfg-options data.test.angles=[20,] \
-        --work-dir "./AMOD_all_test/angle20"
+/home/gpuadmin/SY/AMOD-ExpKit/mmrotate/tools/dist_test.sh \
+  /home/gpuadmin/SY/AMOD-ExpKit/my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py  \
+  /home/gpuadmin/SY/AMOD_pretrained_weight/orientedrcnn_swinS_fpn_angle0_30epochs_le90_amod/best_mAP_epoch_21.pth 4\
+  --eval mAP --out "./AMOD_all_test/angle0_20/test.pkl"  --eval-options iou_thr=0.5,0.75 --cfg-options data.test.angles=[20,] \
+  --work-dir "./AMOD_all_test/angle0_20"
 
-python ./mmrotate/tools/test.py ./my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py \
-       ./work_dirs/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod/best_mAP_epoch_28.pth \
-        --eval mAP --out "./AMOD_all_test/angle30/test.pkl"  --eval-options iou_thr=0.5   --cfg-options data.test.angles=[30,] \
-        --work-dir "./AMOD_all_test/angle30"
+/home/gpuadmin/SY/AMOD-ExpKit/mmrotate/tools/dist_test.sh \
+  /home/gpuadmin/SY/AMOD-ExpKit/my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py  \
+  /home/gpuadmin/SY/AMOD_pretrained_weight/orientedrcnn_swinS_fpn_angle0_30epochs_le90_amod/best_mAP_epoch_21.pth 4\
+  --eval mAP --out "./AMOD_all_test/angle0_30/test.pkl"  --eval-options iou_thr=0.5,0.75 --cfg-options data.test.angles=[30,] \
+  --work-dir "./AMOD_all_test/angle0_30"
 
-python ./mmrotate/tools/test.py ./my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py \
-       ./work_dirs/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod/best_mAP_epoch_28.pth \
-        --eval mAP --out "./AMOD_all_test/angle40/test.pkl"  --eval-options iou_thr=0.5   --cfg-options data.test.angles=[40,] \
-        --work-dir "./AMOD_all_test/angle40"
+/home/gpuadmin/SY/AMOD-ExpKit/mmrotate/tools/dist_test.sh \
+  /home/gpuadmin/SY/AMOD-ExpKit/my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py  \
+  /home/gpuadmin/SY/AMOD_pretrained_weight/orientedrcnn_swinS_fpn_angle0_30epochs_le90_amod/best_mAP_epoch_21.pth 4\
+  --eval mAP --out "./AMOD_all_test/angle0_40/test.pkl"  --eval-options iou_thr=0.5,0.75 --cfg-options data.test.angles=[40,] \
+  --work-dir "./AMOD_all_test/angle0_40"
 
-python ./mmrotate/tools/test.py ./my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py \
-       ./work_dirs/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod/best_mAP_epoch_28.pth \
-        --eval mAP --out "./AMOD_all_test/angle50/test.pkl"  --eval-options iou_thr=0.5   --cfg-options data.test.angles=[50,] \
-        --work-dir "./AMOD_all_test/angle50"
+/home/gpuadmin/SY/AMOD-ExpKit/mmrotate/tools/dist_test.sh \
+  /home/gpuadmin/SY/AMOD-ExpKit/my_config/config_log_sooyeon/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_ThreeFourth-le90_amod.py  \
+  /home/gpuadmin/SY/AMOD_pretrained_weight/orientedrcnn_swinS_fpn_angle0_30epochs_le90_amod/best_mAP_epoch_21.pth 4\
+  --eval mAP --out "./AMOD_all_test/angle0_50/test.pkl"  --eval-options iou_thr=0.5,0.75 --cfg-options data.test.angles=[50,] \
+  --work-dir "./AMOD_all_test/angle0_50"
 
 ~~~
