@@ -45,6 +45,15 @@ python mmrotate/tools/train.py my_config/orientedrcnn_swinS_fpn_angle0,10,20,30,
                runner.max_epochs=1 data.samples_per_gpu=2
 ~~~
 
+모의 테스트 2 (Fine-grained)
+~~~shell
+cd ../..
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/train.py my_config/config_log_yechan/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodFG.py \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=1 data.samples_per_gpu=2
+~~~
+
 2025-02-04 
 
 * 멀티 GPU 훈련 실험 -> 성공 (172.26.19.26)
