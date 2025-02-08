@@ -265,7 +265,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config
 * 172.26.49.150
 
 ~~~shell
-DATA_ROOT="/home/gpuadmin/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+DATA_ROOT="/media/gpuadmin/MLV-2TB/data/AMOD_V1_FINAL_OPTICAL/"
 chmod +x ./mmrotate/tools/dist_train.sh
 CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodC.py  4 \
  --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
