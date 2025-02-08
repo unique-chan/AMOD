@@ -235,10 +235,6 @@ CUDA_VISIBLE_DEVICES=0,1 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/con
                runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
 
-* 172.26.49.150
-~~~shell
-
-~~~
 
 * 172.26.49.151
 ~~~shell
@@ -264,3 +260,60 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config
                runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
 
+2025-02-08
+
+* 172.26.49.150
+
+~~~shell
+DATA_ROOT="/home/gpuadmin/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodC.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodC_Half.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodC_OneSixth.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodC_ThreeFourth.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0_30epochs_le90_amodC.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle10_30epochs_le90_amodC.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle20_30epochs_le90_amodC.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle30_30epochs_le90_amodC.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle40_30epochs_le90_amodC.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle50_30epochs_le90_amodC.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+~~~
