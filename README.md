@@ -1,5 +1,5 @@
 <div align="center">
-    <img alt="AMOD: Arma3 Military Object Detection" src="./mmrotate/Logo.png" />
+    <img alt="AMOD: Arma3 Military Object Detection" src="./mmrotate/Logo.svg" />
 </div>
 
 <hr>
