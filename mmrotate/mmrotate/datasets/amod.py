@@ -27,8 +27,8 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
         'Tank': (255, 122, 0),
         'TEL': (121, 85, 72),
     }
-    CLASSES = list(CLASSES_PALETTE_COMBINATION_DIC.keys())
-    PALETTE = list(CLASSES_PALETTE_COMBINATION_DIC.values())
+    CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
+    PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
 
     def __init__(self,
                  ann_file: str,
@@ -39,7 +39,6 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
                  height: int = 1440,
                  ext: str = 'png',
                  angles: Optional[List[int]] = None,
-                 allow_civilian: bool = False,
                  **kwargs) -> None:
         """
         Args:
@@ -64,9 +63,6 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
             kwargs['data_root'] = kwargs['data_root'].replace('\\', ' ')
         print(f'▶️ [{self.__class__.__name__}] Initializing with angles: {angles}, '
               f'ann_file: {ann_file}, kwargs: {kwargs}')
-        if allow_civilian:
-            self.CLASSES.append('civilian')
-            self.PALETTE.append((0, 0, 0))
         self.version = version
         self.cat2label = {cat: i for i, cat in enumerate(self.CLASSES)}
         self.angles = angles
@@ -261,3 +257,65 @@ class AMODFineGrainedDataset(AMODDataset):  # Add to __iniy__.py!
                     continue
 
         return data_info_list
+
+
+@ROTATED_DATASETS.register_module()
+class AMODwithCivilianDataset(AMODDataset):  # Add to __iniy__.py!
+    CLASSES_PALETTE_COMBINATION_DIC = {
+        'Armored': (244, 67, 54),
+        'Artillery': (255, 51, 204),
+        'Boat': (156, 39, 176),
+        'Helicopter': (103, 58, 183),
+        'LCU': (63, 81, 181),
+        'MLRS': (33, 150, 243),
+        'Plane': (0, 188, 212),
+        'RADAR': (0, 150, 136),
+        'SAM': (76, 175, 80),
+        'Self-propelled Artillery': (139, 195, 74),
+        'Support': (205, 220, 57),
+        'Tank': (255, 122, 0),
+        'TEL': (121, 85, 72),
+        'civilian': (0, 0, 0),
+    }
+    CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
+    PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
+
+    def __init__(self, ann_file, **kwargs):
+        super().__init__(ann_file, **kwargs)
+
+
+@ROTATED_DATASETS.register_module()
+class AMODwithCivilianFineGrainedDataset(AMODFineGrainedDataset):  # Add to __iniy__.py!
+    CLASSES_PALETTE_COMBINATION_DIC = {
+        'Armored+APC': (244, 67, 54),
+        'Armored+ASV': (239, 62, 49),
+        'Armored+IFV': (234, 57, 44),
+        'Armored+MRAP': (229, 52, 39),
+        'Artillery+Artillery': (255, 51, 204),
+        'Boat+Boat': (156, 39, 176),
+        'Boat+RHIB': (151, 34, 171),
+        'Helicopter+AH': (103, 58, 183),
+        'Helicopter+CH': (98, 53, 178),
+        'Helicopter+OH': (93, 48, 173),
+        'Helicopter+UH': (88, 43, 168),
+        'LCU+LCU': (63, 81, 181),
+        'MLRS+MLRS': (33, 150, 243),
+        'Plane+Attacker': (0, 188, 212),
+        'Plane+Bomber': (0, 183, 207),
+        'Plane+Cargo': (0, 178, 202),
+        'Plane+Fighter': (0, 173, 197),
+        'RADAR+RADAR': (0, 150, 136),
+        'SAM+SAM': (76, 175, 80),
+        'Self-propelled Artillery+Self-propelled Artillery': (139, 195, 74),
+        'Support+Mil_car': (205, 220, 57),
+        'Support+Mil_truck': (200, 215, 52),
+        'Support+ASV': (195, 210, 47),
+        'Tank+Tank': (255, 122, 0),
+        'TEL+TEL': (121, 85, 72),
+        'civilian+civilian': (0, 0, 0),
+    }
+    CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
+    PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
+
+    def __init__(self, ann_file, **kwargs):
+        super().__init__(ann_file, **kwargs)
