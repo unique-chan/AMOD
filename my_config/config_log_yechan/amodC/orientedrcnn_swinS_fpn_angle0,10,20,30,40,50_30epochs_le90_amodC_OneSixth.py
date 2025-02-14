@@ -67,7 +67,7 @@ test_pipeline = [
 data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2,
-    train=dict(type=dataset_type, data_root=data_root, ann_file='train.txt', img_prefix='train', angles=angles,
+    train=dict(type=dataset_type, data_root=data_root, ann_file='train_OneSixth.txt', img_prefix='train', angles=angles,
                pipeline=train_pipeline, version=angle_version, modality=modality, ext=img_extension),
     val=dict(type=dataset_type, data_root=data_root, ann_file='val.txt', img_prefix='train', angles=angles,
              pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension),
