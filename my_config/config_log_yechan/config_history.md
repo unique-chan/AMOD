@@ -374,3 +374,63 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config
  --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
                runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
+
+
+2025-02-14 (config 파일 오타... 데이터양 관련 재실험)
+26번 서버!
+~~~
+DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodC_Half.py  2 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodC_OneSixth.py  2 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodC_ThreeFourth.py  2 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+~~~
+
+
+151번 서버!
+
+~~~
+DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodFGC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodFGC_Half.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodFGC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodFGC_OneSixth.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodFGC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodFGC_ThreeFourth.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodFG/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodFG_Half.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodFG/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodFG_OneSixth.py 4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodFG/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodFG_ThreeFourth.py 4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+~~~
