@@ -312,7 +312,7 @@ class AMODwithCivilianFineGrainedDataset(AMODFineGrainedDataset):  # Add to __in
         'Support+ASV': (195, 210, 47),
         'Tank+Tank': (255, 122, 0),
         'TEL+TEL': (121, 85, 72),
-        'civilian+civilian': (0, 0, 0),
+        'civilian': (0, 0, 0),
     }
     CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
     PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
