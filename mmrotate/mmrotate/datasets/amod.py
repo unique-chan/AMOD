@@ -181,7 +181,6 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
 class AMODFineGrainedDataset(AMODDataset):  # Add to __iniy__.py!
     CLASSES_PALETTE_COMBINATION_DIC = {
         'Armored+APC': (244, 67, 54),
-        'Armored+ASV': (239, 62, 49),
         'Armored+IFV': (234, 57, 44),
         'Armored+MRAP': (229, 52, 39),
         'Artillery+Artillery': (255, 51, 204),
@@ -288,7 +287,6 @@ class AMODwithCivilianDataset(AMODDataset):  # Add to __iniy__.py!
 class AMODwithCivilianFineGrainedDataset(AMODFineGrainedDataset):  # Add to __iniy__.py!
     CLASSES_PALETTE_COMBINATION_DIC = {
         'Armored+APC': (244, 67, 54),
-        'Armored+ASV': (239, 62, 49),
         'Armored+IFV': (234, 57, 44),
         'Armored+MRAP': (229, 52, 39),
         'Artillery+Artillery': (255, 51, 204),
