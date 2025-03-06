@@ -4,7 +4,7 @@ angles = [0, 10, 20, 30, 40, 50]
 data_root = 'data/AMOD_V1/'         # Important: should be ended with '/'
 modality = 'EO'                     # 'eo' or 'ir'
 img_extension = 'png'               # 'png' or 'jpg'
-num_classes = 25                    # AMOD -> 13, AMOD_FG -> 25 (if civilian allowed? +1!)
+num_classes = 13                    # AMOD -> 13, AMOD_FG -> 25 (if civilian allowed? +1!)
 load_from = None
 resume_from = None
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
