@@ -434,3 +434,14 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config
  --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
                runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
+
+
+
+3/14 Faster R-CNN + Swin-S, 151번
+~~~
+DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/fasterrcnn_swins/amod/fasterRCNN_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+~~~
