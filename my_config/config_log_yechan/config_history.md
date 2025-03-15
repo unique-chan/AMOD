@@ -445,3 +445,4 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config
  --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
                runner.max_epochs=30 data.samples_per_gpu=4
 ~~~
+
