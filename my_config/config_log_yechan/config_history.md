@@ -378,7 +378,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config
 
 2025-02-14 (config 파일 오타... 데이터양 관련 재실험)
 26번 서버!
-~~~
+~~~shell
 DATA_ROOT="/media/yechani7/b6a6d52a-b20a-4e5a-a3d1-61770bbc9edc/AMOD_V1_FINAL_OPTICAL/"
 chmod +x ./mmrotate/tools/dist_train.sh
 CUDA_VISIBLE_DEVICES=0,1 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodC_Half.py  2 \
@@ -399,7 +399,7 @@ CUDA_VISIBLE_DEVICES=0,1 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/con
 
 151번 서버!
 
-~~~
+~~~shell
 DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
 chmod +x ./mmrotate/tools/dist_train.sh
 CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/amodFGC/orientedrcnn_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amodFGC_Half.py  4 \
@@ -438,11 +438,88 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./mmrotate/tools/dist_train.sh my_config
 
 
 3/14 Faster R-CNN + Swin-S, 151번
-~~~
+~~~shell
 DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
 chmod +x ./mmrotate/tools/dist_train.sh
-CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/fasterrcnn_swins/amod/fasterRCNN_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py  4 \
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/fasterrcnn/amod/fasterRCNN_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py  4 \
  --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
                runner.max_epochs=30 data.samples_per_gpu=4
+
+DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/fcos/amod/fcos_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/gliding_vertex/amod/gliding_vertex_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/oriented_reppoints/amod/oriented_reppoints_swinS_fpn_angle0,10,20,30,40,50_30epochs_le135_amod.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/redet/amod/redet_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/retinanet/amod/retinanet_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
+DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/roi_transformer/amod/roi_transformer_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+               
+DATA_ROOT="/MLV-2TB/AMOD_V1_FINAL_OPTICAL/"
+chmod +x ./mmrotate/tools/dist_train.sh
+CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config/config_log_yechan/s2a_net/amod/s2a_net_swinS_fpn_angle0,10,20,30,40,50_30epochs_le135_amod.py  4 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=4
+
 ~~~
+
+모의 테스트용
+~~~shell
+cd ../..
+
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/train.py my_config/config_log_yechan/gliding_vertex/amod/gliding_vertex_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=1 data.samples_per_gpu=2
+
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/train.py my_config/config_log_yechan/oriented_reppoints/amod/oriented_reppoints_swinS_fpn_angle0,10,20,30,40,50_30epochs_le135_amod.py \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=1 data.samples_per_gpu=2
+
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/train.py my_config/config_log_yechan/redet/amod/redet_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=1 data.samples_per_gpu=2
+               
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/train.py my_config/config_log_yechan/roi_transformer/amod/roi_transformer_swinS_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=1 data.samples_per_gpu=2
+
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/train.py my_config/config_log_yechan/s2a_net/amod/s2a_net_swinS_fpn_angle0,10,20,30,40,50_30epochs_le135_amod.py \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=1 data.samples_per_gpu=2
+
+~~~
+
+
+
 
