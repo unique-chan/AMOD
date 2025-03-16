@@ -8,7 +8,7 @@ num_classes = 13                    # AMOD -> 13, AMOD_FG -> 25 (if civilian all
 load_from = None
 resume_from = None
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
-angle_version = 'le90'
+angle_version = 'oc'
 evaluation = dict(interval=1, metric='mAP', save_best='mAP')
 optimizer = dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
@@ -28,7 +28,6 @@ log_level = 'INFO'
 workflow = [('train', 1)]
 opencv_num_threads = 0
 mp_start_method = 'fork'
-
 
 # 🧑‍🏫 TRAIN/VAL/TEST CONFIG #############################################################################################
 # TIP: https://github.com/open-mmlab/mmdetection/issues/7680
@@ -74,40 +73,6 @@ data = dict(
     test=dict(type=dataset_type, data_root=data_root, ann_file='test.txt', img_prefix='test', angles=angles,
               pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension)
 )
-
-
-# 🤖 MODEL CONFIG ######################################################################################################
-pretrained = 'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_small_patch4_window7_224.pth'
-# 🚩 DEFAULT CONFIG ####################################################################################################
-dataset_type = 'AMODDataset'
-angles = [0, 10, 20, 30, 40, 50]
-data_root = 'data/AMOD_V1/'         # Important: should be ended with '/'
-modality = 'EO'                     # 'eo' or 'ir'
-img_extension = 'png'               # 'png' or 'jpg'
-num_classes = 13                    # AMOD -> 13, AMOD_FG -> 25 (if civilian allowed? +1!)
-load_from = None
-resume_from = None
-img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
-angle_version = 'oc'
-evaluation = dict(interval=1, metric='mAP', save_best='mAP')
-optimizer = dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=0.0001)
-optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
-lr_config = dict(
-    policy='step',
-    warmup='linear',
-    warmup_iters=500,
-    warmup_ratio=0.3333333333333333,
-    step=[16, 22]
-)
-runner = dict(type='EpochBasedRunner', max_epochs=30)
-checkpoint_config = dict(interval=-1) # save only when val mAP is best
-log_config = dict(interval=50, hooks=[dict(type='TextLoggerHook'),
-                                      dict(type='TensorboardLoggerHook')])
-dist_params = dict(backend='nccl')
-log_level = 'INFO'
-workflow = [('train', 1)]
-opencv_num_threads = 0
-mp_start_method = 'fork'
 
 
 # 🧑‍🏫 TRAIN/VAL/TEST CONFIG #############################################################################################
