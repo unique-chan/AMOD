@@ -1,9 +1,10 @@
 # 🚩 DEFAULT CONFIG ####################################################################################################
 dataset_type = 'AMODDataset'
-angles = [0,10,20,30,40,50]
+angles = [0, 10, 20, 30, 40, 50]
 data_root = 'data/AMOD_V1/'         # Important: should be ended with '/'
 modality = 'EO'                     # 'eo' or 'ir'
 img_extension = 'png'               # 'png' or 'jpg'
+num_classes = 13                    # AMOD -> 13, AMOD_FG -> 25 (if civilian allowed? +1!)
 load_from = None
 resume_from = None
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -76,30 +77,26 @@ data = dict(
 
 
 # 🤖 MODEL CONFIG ######################################################################################################
+checkpoint_file = 'https://download.openmmlab.com/mmclassification/v0/convnext/downstream/convnext-small_3rdparty_32xb128-noema_in1k_20220301-303e75e3.pth'
+# custom_imports = dict(imports=['mmpretrain.models'], allow_failed_imports=False)
 model = dict(
     type='OrientedRCNN',
     backbone=dict(
-        type='SwinTransformer',
-        embed_dims=96,
-        depths=[2, 2, 18, 2],
-        num_heads=[3, 6, 12, 24],
-        window_size=7,
-        mlp_ratio=4,
-        qkv_bias=True,
-        qk_scale=None,
-        drop_rate=0.,
-        attn_drop_rate=0.,
-        drop_path_rate=0.3,
-        patch_norm=True,
-        out_indices=(0, 1, 2, 3),
-        with_cp=False,
-        convert_weights=True,
-        init_cfg=dict(type='Pretrained', checkpoint='https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_small_patch4_window7_224.pth')
+        type='ConvNeXt',
+        arch='small',   # 'tiny', 'small', 'base', 'large'
+        out_indices=[0, 1, 2, 3],
+        drop_path_rate=0.6,
+        layer_scale_init_value=1.0,
+        gap_before_final_norm=False,
+        init_cfg=dict(
+            type='Pretrained', checkpoint=checkpoint_file,
+            prefix='backbone.')
     ),
     neck=dict(
         type='FPN',
         in_channels=[96, 192, 384, 768],
         out_channels=256,
+        start_level=1,
         num_outs=5
     ),
     rpn_head=dict(
@@ -144,7 +141,7 @@ model = dict(
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=13,
+            num_classes=num_classes,
             bbox_coder=dict(
                 type='DeltaXYWHAOBBoxCoder',
                 angle_range=angle_version,
