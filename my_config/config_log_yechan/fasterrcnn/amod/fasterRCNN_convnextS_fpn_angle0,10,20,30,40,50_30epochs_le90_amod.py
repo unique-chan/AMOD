@@ -78,9 +78,8 @@ data = dict(
 
 # 🤖 MODEL CONFIG ######################################################################################################
 checkpoint_file = 'https://download.openmmlab.com/mmclassification/v0/convnext/downstream/convnext-small_3rdparty_32xb128-noema_in1k_20220301-303e75e3.pth'
-angle_version = 'le90'
 model = dict(
-    type='GlidingVertex',
+    type='RotatedFasterRCNN',
     backbone=dict(
         type='ConvNeXt',
         arch='small',   # 'tiny', 'small', 'base', 'large'
@@ -96,28 +95,14 @@ model = dict(
         type='FPN',
         in_channels=[96, 192, 384, 768],
         out_channels=256,
+        start_level=1,
         num_outs=5
     ),
-    # backbone=dict(
-    #     type='ResNet',
-    #     depth=50,
-    #     num_stages=4,
-    #     out_indices=(0, 1, 2, 3),
-    #     frozen_stages=1,
-    #     norm_cfg=dict(type='BN', requires_grad=True),
-    #     norm_eval=True,
-    #     style='pytorch',
-    #     init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50')),
-    # neck=dict(
-    #     type='FPN',
-    #     in_channels=[256, 512, 1024, 2048],
-    #     out_channels=256,
-    #     num_outs=5),
     rpn_head=dict(
         type='RotatedRPNHead',
-        version=angle_version,
         in_channels=256,
         feat_channels=256,
+        version=angle_version,
         anchor_generator=dict(
             type='AnchorGenerator',
             scales=[8],
@@ -132,7 +117,7 @@ model = dict(
         loss_bbox=dict(
             type='SmoothL1Loss', beta=0.1111111111111111, loss_weight=1.0)),
     roi_head=dict(
-        type='GVRatioRoIHead',
+        type='RotatedStandardRoIHead',
         version=angle_version,
         bbox_roi_extractor=dict(
             type='SingleRoIExtractor',
@@ -140,29 +125,22 @@ model = dict(
             out_channels=256,
             featmap_strides=[4, 8, 16, 32]),
         bbox_head=dict(
-            type='GVBBoxHead',
-            version=angle_version,
-            num_shared_fcs=2,
+            type='RotatedShared2FCBBoxHead',
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
             num_classes=num_classes,
-            ratio_thr=0.8,
             bbox_coder=dict(
-                type='DeltaXYWHBBoxCoder',
-                target_means=(.0, .0, .0, .0),
-                target_stds=(0.1, 0.1, 0.2, 0.2)),
-            fix_coder=dict(type='GVFixCoder', angle_range=angle_version),
-            ratio_coder=dict(type='GVRatioCoder', angle_range=angle_version),
+                type='DeltaXYWHAHBBoxCoder',
+                angle_range=angle_version,
+                norm_factor=2,
+                edge_swap=True,
+                target_means=(.0, .0, .0, .0, .0),
+                target_stds=(0.1, 0.1, 0.2, 0.2, 0.1)),
             reg_class_agnostic=True,
             loss_cls=dict(
                 type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0),
-            loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0),
-            loss_fix=dict(
-                type='SmoothL1Loss', beta=1.0 / 3.0, loss_weight=1.0),
-            loss_ratio=dict(
-                type='SmoothL1Loss', beta=1.0 / 3.0, loss_weight=16.0),
-        )),
+            loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0))),
     train_cfg=dict(
         rpn=dict(
             assigner=dict(
