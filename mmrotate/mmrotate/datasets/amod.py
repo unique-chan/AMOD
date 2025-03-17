@@ -164,11 +164,20 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
                     use_07_metric=use_07_metric,
                     dataset=self.CLASSES,
                     logger=logger,
-                    nproc=nproc)
+                    nproc=nproc,
+                    scale_ranges=scale_ranges)
 
-                mean_aps.append(mean_ap)
-                eval_results[f'AP{int(iou_thr * 100):02d}'] = round(mean_ap, 3)
-            eval_results['mAP'] = sum(mean_aps) / len(mean_aps)
+
+                if isinstance(mean_ap, list):  #  mean_ap가 리스트일 경우
+                    for idx, ap in enumerate(mean_ap):  
+                        eval_results[f'AP{int(iou_thr * 100):02d}_scale{idx}'] = ap  # 개별 스케일별 AP 저장
+                else:
+                    eval_results[f'AP{int(iou_thr * 100):02d}'] = mean_ap
+
+                mean_aps.append(mean_ap)  # 전체 AP 리스트에 추가
+
+            # mAP를 평균 내지 않고 리스트 형태로 저장
+            eval_results['mAP'] = mean_aps
             eval_results.move_to_end('mAP', last=False)
         elif metric == 'recall':
             raise NotImplementedError
