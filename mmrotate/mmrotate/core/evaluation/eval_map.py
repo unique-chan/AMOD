@@ -30,68 +30,70 @@ def tpfp_default(det_bboxes,
         tuple[np.ndarray]: (tp, fp) whose elements are 0 and 1. The shape of
             each array is (num_scales, m).
     """
-    # an indicator of ignored gts
-    det_bboxes = np.array(det_bboxes)
+    det_bboxes = np.array(det_bboxes)  # 탐지된 바운딩 박스
     gt_ignore_inds = np.concatenate(
-        (np.zeros(gt_bboxes.shape[0],
-                  dtype=bool), np.ones(gt_bboxes_ignore.shape[0], dtype=bool)))
-    # stack gt_bboxes and gt_bboxes_ignore for convenience
-    gt_bboxes = np.vstack((gt_bboxes, gt_bboxes_ignore))
+        (np.zeros(gt_bboxes.shape[0], dtype=bool), 
+         np.ones(gt_bboxes_ignore.shape[0], dtype=bool))
+    )  # GT 및 무시해야 할 GT 리스트 생성
 
-    num_dets = det_bboxes.shape[0]
-    num_gts = gt_bboxes.shape[0]
-    if area_ranges is None:
+    # 스택하여 GT와 무시할 GT를 합침
+    gt_bboxes = np.vstack((gt_bboxes, gt_bboxes_ignore))  
+
+    num_dets = det_bboxes.shape[0]   # 탐지된 바운딩 박스 개수
+    num_gts = gt_bboxes.shape[0]     # GT 바운딩 박스 개수
+
+    if area_ranges is None:  # 평가할 바운딩 박스 크기 제한이 없는 경우
         area_ranges = [(None, None)]
-    num_scales = len(area_ranges)
-    # tp and fp are of shape (num_scales, num_gts), each row is tp or fp of
-    # a certain scale
+
+    num_scales = len(area_ranges)  # 평가할 크기 범위 개수
     tp = np.zeros((num_scales, num_dets), dtype=np.float32)
     fp = np.zeros((num_scales, num_dets), dtype=np.float32)
 
-    # if there is no gt bboxes in this image, then all det bboxes
-    # within area range are false positives
-    if gt_bboxes.shape[0] == 0:
-        if area_ranges == [(None, None)]:
-            fp[...] = 1
-        else:
-            raise NotImplementedError
+    # GT가 없는 경우 모든 탐지된 바운딩 박스를 False Positive로 처리
+    if num_gts == 0:
+        fp[...] = 1
         return tp, fp
 
+    # IOU 계산
     ious = box_iou_rotated(
         torch.from_numpy(det_bboxes).float(),
         torch.from_numpy(gt_bboxes).float()).numpy()
-    # for each det, the max iou with all gts
-    ious_max = ious.max(axis=1)
-    # for each det, which gt overlaps most with it
-    ious_argmax = ious.argmax(axis=1)
-    # sort all dets in descending order by scores
-    sort_inds = np.argsort(-det_bboxes[:, -1])
+    
+    ious_max = ious.max(axis=1)  # 각 탐지된 바운딩 박스에 대해 최대 IoU 값
+    ious_argmax = ious.argmax(axis=1)  # 최대 IoU를 가지는 GT의 인덱스
+    sort_inds = np.argsort(-det_bboxes[:, -1])  # 신뢰도 점수에 따라 정렬
+
+    # GT의 크기 계산 (가로 * 세로)
+    gt_areas = gt_bboxes[:, 2] * gt_bboxes[:, 3]
+
     for k, (min_area, max_area) in enumerate(area_ranges):
-        gt_covered = np.zeros(num_gts, dtype=bool)
-        # if no area range is specified, gt_area_ignore is all False
+        gt_covered = np.zeros(num_gts, dtype=bool)  # GT가 탐지되었는지 여부
+
         if min_area is None:
-            gt_area_ignore = np.zeros_like(gt_ignore_inds, dtype=bool)
+            gt_area_ignore = np.zeros_like(gt_ignore_inds, dtype=bool)  # 모든 GT를 포함
         else:
-            raise NotImplementedError
+            # ✅ GT 크기에 따라 필터링 적용
+            gt_area_ignore = (gt_areas < min_area) | (gt_areas > max_area)  
+
         for i in sort_inds:
             if ious_max[i] >= iou_thr:
                 matched_gt = ious_argmax[i]
-                if not (gt_ignore_inds[matched_gt]
-                        or gt_area_ignore[matched_gt]):
-                    if not gt_covered[matched_gt]:
+                if not (gt_ignore_inds[matched_gt] or gt_area_ignore[matched_gt]):
+                    if not gt_covered[matched_gt]:  # 해당 GT가 아직 매칭되지 않은 경우
                         gt_covered[matched_gt] = True
-                        tp[k, i] = 1
+                        tp[k, i] = 1  # True Positive
                     else:
-                        fp[k, i] = 1
-                # otherwise ignore this detected bbox, tp = 0, fp = 0
+                        fp[k, i] = 1  # 중복 탐지는 False Positive 처리
             elif min_area is None:
-                fp[k, i] = 1
+                fp[k, i] = 1  # IoU가 낮고, 크기 조건이 없을 경우 False Positive
             else:
                 bbox = det_bboxes[i, :5]
                 area = bbox[2] * bbox[3]
-                if area >= min_area and area < max_area:
-                    fp[k, i] = 1
+                if min_area <= area < max_area:  
+                    fp[k, i] = 1  # 크기 범위 내에 속하는 경우 False Positive
+
     return tp, fp
+
 
 
 def get_cls_results(det_results, annotations, class_id):
@@ -167,9 +169,10 @@ def eval_rbbox_map(det_results,
     num_imgs = len(det_results)
     num_scales = len(scale_ranges) if scale_ranges is not None else 1
     num_classes = len(det_results[0])  # positive class num
-    area_ranges = ([(rg[0]**2, rg[1]**2) for rg in scale_ranges]
-                   if scale_ranges is not None else None)
 
+    area_ranges = ([(rg[0], rg[1]) for rg in scale_ranges]
+                   if scale_ranges is not None else None)
+    
     pool = get_context('spawn').Pool(nproc)
     eval_results = []
     for i in range(num_classes):
@@ -183,6 +186,7 @@ def eval_rbbox_map(det_results,
             zip(cls_dets, cls_gts, cls_gts_ignore,
                 [iou_thr for _ in range(num_imgs)],
                 [area_ranges for _ in range(num_imgs)]))
+        
         tp, fp = tuple(zip(*tpfp))
         # calculate gt number of each scale
         # ignored gts or gts beyond the specific scale are not counted
@@ -191,7 +195,8 @@ def eval_rbbox_map(det_results,
             if area_ranges is None:
                 num_gts[0] += bbox.shape[0]
             else:
-                gt_areas = bbox[:, 2] * bbox[:, 3]
+                gt_areas = bbox[:, 2] * bbox[:, 3] # 넓이 
+                
                 for k, (min_area, max_area) in enumerate(area_ranges):
                     num_gts[k] += np.sum((gt_areas >= min_area)
                                          & (gt_areas < max_area))
@@ -276,20 +281,12 @@ def print_map_summary(mean_ap,
     if scale_ranges is not None:
         assert len(scale_ranges) == num_scales
 
-    # num_classes = len(results)
-    # recalls = np.zeros((num_scales, num_classes), dtype=np.float32)
+    num_classes = len(results)
 
-    ####################################################################################################################
-    num_classes = len(dataset) if dataset else len(results)
-    num_results_classes = len(results)
-    min_classes = min(num_classes, num_results_classes)
-    recalls = np.zeros((num_scales, min_classes), dtype=np.float32)
-    ####################################################################################################################
-
+    recalls = np.zeros((num_scales, num_classes), dtype=np.float32)
     aps = np.zeros((num_scales, num_classes), dtype=np.float32)
     num_gts = np.zeros((num_scales, num_classes), dtype=int)
-    # for i, cls_result in enumerate(results):
-    for i, cls_result in enumerate(results[:min_classes]):
+    for i, cls_result in enumerate(results):
         if cls_result['recall'].size > 0:
             recalls[:, i] = np.array(cls_result['recall'], ndmin=2)[:, -1]
         aps[:, i] = cls_result['ap']
@@ -298,8 +295,7 @@ def print_map_summary(mean_ap,
     if dataset is None:
         label_names = [str(i) for i in range(num_classes)]
     else:
-        # label_names = dataset
-        label_names = dataset[:min_classes]
+        label_names = dataset
 
     if not isinstance(mean_ap, list):
         mean_ap = [mean_ap]
@@ -311,8 +307,7 @@ def print_map_summary(mean_ap,
         table_data = [header]
         for j in range(num_classes):
             row_data = [
-                # label_names[j], num_gts[i, j], results[j]['num_dets'],
-                label_names[j], num_gts[i, j], results[j].get('num_dets', 0),
+                label_names[j], num_gts[i, j], results[j]['num_dets'],
                 f'{recalls[i, j]:.3f}', f'{aps[i, j]:.3f}'
             ]
             table_data.append(row_data)
