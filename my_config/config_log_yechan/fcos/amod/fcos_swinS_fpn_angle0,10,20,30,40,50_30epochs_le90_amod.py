@@ -130,7 +130,9 @@ model = dict(
         loss_centerness=dict(
             type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0)),
     # training and testing settings
-    train_cfg=None,
+    train_cfg=dict(
+        find_unused_parameters=True,
+    ),
     test_cfg=dict(
         nms_pre=2000,
         min_bbox_size=0,
