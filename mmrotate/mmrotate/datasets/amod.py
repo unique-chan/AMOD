@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from itertools import chain
 from typing import List, Optional
 
 import numpy as np
@@ -174,11 +175,15 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
                 else:
                     eval_results[f'AP{int(iou_thr * 100):02d}'] = mean_ap
 
-                mean_aps.append(mean_ap)  # 전체 AP 리스트에 추가
+                mean_aps.append(mean_ap) 
+                print(mean_aps)
 
-            # mAP를 평균 내지 않고 리스트 형태로 저장
-            eval_results['mAP'] = mean_aps
+            # mean_aps가 2D 리스트인지 확인 후 평탄화
+            mean_aps = list(chain(*mean_aps)) if any(isinstance(i, list) for i in mean_aps) else mean_aps
+
+            eval_results['mAP'] = sum(mean_aps) / len(mean_aps) if mean_aps else 0.0
             eval_results.move_to_end('mAP', last=False)
+
         elif metric == 'recall':
             raise NotImplementedError
 
