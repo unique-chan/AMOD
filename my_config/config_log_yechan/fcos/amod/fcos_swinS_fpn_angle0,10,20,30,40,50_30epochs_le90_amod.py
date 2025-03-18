@@ -28,6 +28,7 @@ log_level = 'INFO'
 workflow = [('train', 1)]
 opencv_num_threads = 0
 mp_start_method = 'fork'
+find_unused_parameters = True
 
 
 # 🧑‍🏫 TRAIN/VAL/TEST CONFIG #############################################################################################

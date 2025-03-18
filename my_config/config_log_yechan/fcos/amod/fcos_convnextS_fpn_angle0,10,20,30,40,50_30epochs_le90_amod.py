@@ -19,6 +19,8 @@ lr_config = dict(
     warmup_ratio=0.3333333333333333,
     step=[16, 22]
 )
+find_unused_parameters = True
+
 runner = dict(type='EpochBasedRunner', max_epochs=30)
 checkpoint_config = dict(interval=-1) # save only when val mAP is best
 log_config = dict(interval=50, hooks=[dict(type='TextLoggerHook'),
@@ -123,7 +125,9 @@ model = dict(
         loss_centerness=dict(
             type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0)),
     # training and testing settings
-    train_cfg=None,
+    train_cfg=dict(
+        find_unused_parameters=True,
+    ),
     test_cfg=dict(
         nms_pre=2000,
         min_bbox_size=0,
