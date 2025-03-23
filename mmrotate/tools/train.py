@@ -125,6 +125,7 @@ def main():
         # re-set gpu_ids with distributed training mode
         _, world_size = get_dist_info()
         cfg.gpu_ids = range(world_size)
+        cfg.find_unused_parameters = True # Yechan Add
 
     # create work_dir
     mmcv.mkdir_or_exist(osp.abspath(cfg.work_dir))
