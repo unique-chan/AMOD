@@ -78,7 +78,6 @@ data = dict(
 
 
 # 🤖 MODEL CONFIG ######################################################################################################
-pretrained = 'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_small_patch4_window7_224.pth'
 model = dict(
     type='RotatedFCOS',
     backbone=dict(
