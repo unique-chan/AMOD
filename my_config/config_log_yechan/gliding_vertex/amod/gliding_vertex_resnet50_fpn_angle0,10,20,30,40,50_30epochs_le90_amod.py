@@ -77,35 +77,24 @@ data = dict(
 
 
 # 🤖 MODEL CONFIG ######################################################################################################
-pretrained = 'https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_small_patch4_window7_224.pth'
+checkpoint_file = 'https://download.openmmlab.com/mmclassification/v0/convnext/downstream/convnext-small_3rdparty_32xb128-noema_in1k_20220301-303e75e3.pth'
 model = dict(
     type='GlidingVertex',
     backbone=dict(
-        # _delete_=True,
-        type='SwinTransformer',
-        embed_dims=96,
-        depths=[2, 2, 18, 2],
-        num_heads=[3, 6, 12, 24],
-        window_size=7,
-        mlp_ratio=4,
-        qkv_bias=True,
-        qk_scale=None,
-        drop_rate=0.,
-        attn_drop_rate=0.,
-        drop_path_rate=0.3,
-        patch_norm=True,
+        type='ResNet',
+        depth=50,
+        num_stages=4,
         out_indices=(0, 1, 2, 3),
-        with_cp=False,
-        convert_weights=True,
-        init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
+        frozen_stages=1,
+        norm_cfg=dict(type='BN', requires_grad=True),
+        norm_eval=True,
+        style='pytorch',
+        init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50')),
     neck=dict(
         type='FPN',
-        in_channels=[96, 192, 384, 768],
+        in_channels=[256, 512, 1024, 2048],
         out_channels=256,
-        start_level=1,
-        add_extra_convs='on_input',  # use P5
-        num_outs=5,
-        relu_before_extra_convs=True),
+        num_outs=5),
     rpn_head=dict(
         type='RotatedRPNHead',
         version=angle_version,
