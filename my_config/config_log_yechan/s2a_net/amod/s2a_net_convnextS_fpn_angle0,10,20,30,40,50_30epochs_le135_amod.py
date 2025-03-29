@@ -87,6 +87,7 @@ model = dict(
         drop_path_rate=0.6,
         layer_scale_init_value=1.0,
         gap_before_final_norm=False,
+        pretrained=True,
         init_cfg=dict(
             type='Pretrained', checkpoint=pretrained,
             prefix='backbone.')
