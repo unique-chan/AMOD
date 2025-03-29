@@ -77,18 +77,18 @@ data = dict(
 
 
 # 🤖 MODEL CONFIG ######################################################################################################
-pretrained = 'https://download.openmmlab.com/mmclassification/v0/convnext/downstream/convnext-small_3rdparty_32xb128-noema_in1k_20220301-303e75e3.pth'
+checkpoint_file = 'https://download.openmmlab.com/mmclassification/v0/convnext/downstream/convnext-small_3rdparty_32xb128-noema_in1k_20220301-303e75e3.pth'
 model = dict(
     type='S2ANet',
     backbone=dict(
         type='ConvNeXt',
-        arch='small',   # 'tiny', 'small', 'base', 'large'
+        arch='small',  # 'tiny', 'small', 'base', 'large'
         out_indices=[0, 1, 2, 3],
         drop_path_rate=0.6,
         layer_scale_init_value=1.0,
         gap_before_final_norm=False,
         init_cfg=dict(
-            type='Pretrained', checkpoint=pretrained,
+            type='Pretrained', checkpoint=checkpoint_file,
             prefix='backbone.')
     ),
     neck=dict(
