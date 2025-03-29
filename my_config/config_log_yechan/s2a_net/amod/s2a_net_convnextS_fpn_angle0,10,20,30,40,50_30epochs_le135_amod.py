@@ -77,7 +77,7 @@ data = dict(
 
 
 # 🤖 MODEL CONFIG ######################################################################################################
-checkpoint_file = 'https://download.openmmlab.com/mmclassification/v0/convnext/downstream/convnext-small_3rdparty_32xb128-noema_in1k_20220301-303e75e3.pth'
+pretrained = 'https://download.openmmlab.com/mmclassification/v0/convnext/downstream/convnext-small_3rdparty_32xb128-noema_in1k_20220301-303e75e3.pth'
 model = dict(
     type='S2ANet',
     backbone=dict(
@@ -88,7 +88,7 @@ model = dict(
         layer_scale_init_value=1.0,
         gap_before_final_norm=False,
         init_cfg=dict(
-            type='Pretrained', checkpoint=checkpoint_file,
+            type='Pretrained', checkpoint=pretrained,
             prefix='backbone.')
     ),
     neck=dict(
