@@ -489,7 +489,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29501 ./mmrotate/tools/dist_train.sh my_config
 
 ~~~
 
-모의 테스트용
+모의 테스트용 1
 ~~~shell
 cd ../..
 
@@ -528,4 +528,28 @@ python mmrotate/tools/train.py my_config/config_log_yechan/orientedrcnn/amod/ori
 
 
 
+모의 테스트용 2
+~~~shell
+cd ../..
 
+#DATA_ROOT="data/AMOD_MOCK/"
+#python mmrotate/tools/train.py my_config/config_log_yechan/s2a_net/amod/s2a_net_swinS_fpn_angle0,10,20,30,40,50_30epochs_le135_amod.py \
+# --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+#               runner.max_epochs=1 data.samples_per_gpu=2
+
+DATA_ROOT="data/AMOD_MOCK/"
+python mmrotate/tools/train.py my_config/config_log_yechan/s2a_net/amod/오류발생_s2a_net_convnextS_fpn_angle0,10,20,30,40,50_30epochs_le135_amod.py \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=1 data.samples_per_gpu=2
+
+
+
+~~~
+
+DATA_ROOT="/media/yechani9/T5EVO/AMOD_V1_FINAL_OPTICAL/"
+python mmrotate/tools/train.py my_config/config_log_yechan/orientedrcnn/amod/orientedrcnn_resnet50_fpn_angle0,10,20,30,40,50_30epochs_le90_amod.py --gpu-ids 1 \
+ --cfg-options data.train.data_root="$DATA_ROOT" data.val.data_root="$DATA_ROOT" \
+               runner.max_epochs=30 data.samples_per_gpu=2
+
+
+--gpu-ids
