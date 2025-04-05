@@ -91,6 +91,12 @@ def parse_args():
         default='none',
         help='job launcher')
     parser.add_argument('--local_rank', type=int, default=0)
+    parser.add_argument(
+        '--scale-ranges',
+        type=float,
+        nargs='+',
+        help='Scale ranges for evaluation in the format: min1 max1 min2 max2 ... (will be grouped in pairs)')
+
     args = parser.parse_args()
     if 'LOCAL_RANK' not in os.environ:
         os.environ['LOCAL_RANK'] = str(args.local_rank)
@@ -249,6 +255,13 @@ def main():
             print(f'\nwriting results to {args.out}')
             mmcv.dump(outputs, args.out)
         kwargs = {} if args.eval_options is None else args.eval_options
+        if args.scale_ranges:
+            # 입력된 리스트를 [(min1, max1), (min2, max2), ...] 형식으로 변환
+            if len(args.scale_ranges) % 2 != 0:
+                raise ValueError('scale_ranges should contain even number of float values (min/max pairs)')
+            scale_ranges = [(args.scale_ranges[i], args.scale_ranges[i + 1])
+                            for i in range(0, len(args.scale_ranges), 2)]
+            kwargs['scale_ranges'] = scale_ranges
         if args.format_only:
             dataset.format_results(outputs, **kwargs)
         if args.eval:
