@@ -26,7 +26,7 @@
 
 ### What is AMOD?
 * Here, `AMOD` refers to our large-scale synthetic dataset, <u>A</u>rma3 <u>M</u>ilitary <u>O</u>bject <u>D</u>etection in optical satellite imagery (🛰️)!
-* For additional information, we direct readers to [our paper](#). (*To do*)
+* For additional information, we direct readers to [our official project homepage](https://sites.google.com/view/yechankim/amod).
 
 ### This repo includes:
 * [Dataset download link](https://sites.google.com/view/yechankim/amod) for AMOD
