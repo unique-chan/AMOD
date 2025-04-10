@@ -29,7 +29,7 @@
 * For additional information, we direct readers to [our paper](#). (*To do*)
 
 ### This repo includes:
-* Dataset download link for AMOD! (*To do*)
+* [Dataset download link](https://sites.google.com/view/yechankim/amod) for AMOD
 * Training & test code for AMOD!
 > [!NOTE]
 > Please note that our deep learning code is developed and tested on Linux. Windows is not officially supported.
