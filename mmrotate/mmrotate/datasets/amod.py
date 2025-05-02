@@ -12,7 +12,7 @@ from mmrotate.core import eval_rbbox_map, poly2obb_np
 
 
 @ROTATED_DATASETS.register_module()
-class AMODDataset(CustomDataset): # Add to __iniy__.py!
+class AMODDataset(CustomDataset): # Add to __init__.py!
     CLASSES_PALETTE_COMBINATION_DIC = {
         'Armored': (244, 67, 54),
         'Artillery': (255, 51, 204),
@@ -168,17 +168,15 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
                     nproc=nproc,
                     scale_ranges=scale_ranges)
 
-
-                if isinstance(mean_ap, list):  #  mean_ap가 리스트일 경우
+                if isinstance(mean_ap, list):
                     for idx, ap in enumerate(mean_ap):  
-                        eval_results[f'AP{int(iou_thr * 100):02d}_scale{idx}'] = ap  # 개별 스케일별 AP 저장
+                        eval_results[f'AP{int(iou_thr * 100):02d}_scale{idx}'] = ap
                 else:
                     eval_results[f'AP{int(iou_thr * 100):02d}'] = mean_ap
 
                 mean_aps.append(mean_ap) 
                 print(mean_aps)
 
-            # mean_aps가 2D 리스트인지 확인 후 평탄화
             mean_aps = list(chain(*mean_aps)) if any(isinstance(i, list) for i in mean_aps) else mean_aps
 
             eval_results['mAP'] = sum(mean_aps) / len(mean_aps) if mean_aps else 0.0
@@ -191,143 +189,143 @@ class AMODDataset(CustomDataset): # Add to __iniy__.py!
 
 
 
-@ROTATED_DATASETS.register_module()
-class AMODFineGrainedDataset(AMODDataset):  # Add to __iniy__.py!
-    CLASSES_PALETTE_COMBINATION_DIC = {
-        'Armored+APC': (244, 67, 54),
-        'Armored+IFV': (234, 57, 44),
-        'Armored+MRAP': (229, 52, 39),
-        'Artillery+Artillery': (255, 51, 204),
-        'Boat+Boat': (156, 39, 176),
-        'Boat+RHIB': (151, 34, 171),
-        'Helicopter+AH': (103, 58, 183),
-        'Helicopter+CH': (98, 53, 178),
-        'Helicopter+OH': (93, 48, 173),
-        'Helicopter+UH': (88, 43, 168),
-        'LCU+LCU': (63, 81, 181),
-        'MLRS+MLRS': (33, 150, 243),
-        'Plane+Attacker': (0, 188, 212),
-        'Plane+Bomber': (0, 183, 207),
-        'Plane+Cargo': (0, 178, 202),
-        'Plane+Fighter': (0, 173, 197),
-        'RADAR+RADAR': (0, 150, 136),
-        'SAM+SAM': (76, 175, 80),
-        'Self-propelled Artillery+Self-propelled Artillery': (139, 195, 74),
-        'Support+Mil_car': (205, 220, 57),
-        'Support+Mil_truck': (200, 215, 52),
-        'Support+ASV': (195, 210, 47),
-        'Tank+Tank': (255, 122, 0),
-        'TEL+TEL': (121, 85, 72),
-    }
-    CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
-    PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
-
-    def __init__(self, ann_file, **kwargs):
-        super().__init__(ann_file, **kwargs)
-
-    def load_annotations(self, ann_file):
-        sample_idx_list = mmcv.list_from_file(ann_file)
-        data_info_list = []
-
-        for sample_idx in sample_idx_list:
-            for angle in self.angles:
-                try:
-                    annot_df = pd.read_csv(
-                        f'{self.img_prefix}/{sample_idx}/{angle}/ANNOTATION-{self.modality}_{sample_idx}_{angle}.csv'
-                    ).query('usable == "T"')
-
-                    if not len(annot_df):
-                        continue
-
-                    annot_df['middle_class'] = annot_df['main_class'] + '+' + annot_df['middle_class']
-
-                    polygons = annot_df[['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4']].values
-                    obb_bboxes = []
-                    for polygon in polygons:
-                        obb_bbox = poly2obb_np(polygon, self.version)
-                        if obb_bbox is not None:
-                            obb_bboxes.append(obb_bbox)
-
-                    obb_bboxes = np.array(obb_bboxes, dtype=np.float32)
-                    labels = np.array(list(map(lambda label: self.cat2label.get(label, -1),
-                                               annot_df['middle_class'])), dtype=np.int64)
-
-                    valid_labels_inds = labels != -1
-                    labels = labels[valid_labels_inds]
-                    obb_bboxes = obb_bboxes[valid_labels_inds]
-
-                    data_info_list.append({
-                        'filename': f'{sample_idx}/{angle}/{self.modality}_{sample_idx}_{angle}.{self.ext}',
-                        'width': self.width, 'height': self.height,
-                        'ann': {
-                            'bboxes': obb_bboxes,
-                            'labels': labels,
-                        }
-                    })
-
-                except Exception as e:
-                    print(f"Error processing {sample_idx} at angle {angle}: {e}")
-                    continue
-
-        return data_info_list
-
-
-@ROTATED_DATASETS.register_module()
-class AMODwithCivilianDataset(AMODDataset):  # Add to __iniy__.py!
-    CLASSES_PALETTE_COMBINATION_DIC = {
-        'Armored': (244, 67, 54),
-        'Artillery': (255, 51, 204),
-        'Boat': (156, 39, 176),
-        'Helicopter': (103, 58, 183),
-        'LCU': (63, 81, 181),
-        'MLRS': (33, 150, 243),
-        'Plane': (0, 188, 212),
-        'RADAR': (0, 150, 136),
-        'SAM': (76, 175, 80),
-        'Self-propelled Artillery': (139, 195, 74),
-        'Support': (205, 220, 57),
-        'Tank': (255, 122, 0),
-        'TEL': (121, 85, 72),
-        'civilian': (0, 0, 0),
-    }
-    CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
-    PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
-
-    def __init__(self, ann_file, **kwargs):
-        super().__init__(ann_file, **kwargs)
-
-
-@ROTATED_DATASETS.register_module()
-class AMODwithCivilianFineGrainedDataset(AMODFineGrainedDataset):  # Add to __iniy__.py!
-    CLASSES_PALETTE_COMBINATION_DIC = {
-        'Armored+APC': (244, 67, 54),
-        'Armored+IFV': (234, 57, 44),
-        'Armored+MRAP': (229, 52, 39),
-        'Artillery+Artillery': (255, 51, 204),
-        'Boat+Boat': (156, 39, 176),
-        'Boat+RHIB': (151, 34, 171),
-        'Helicopter+AH': (103, 58, 183),
-        'Helicopter+CH': (98, 53, 178),
-        'Helicopter+OH': (93, 48, 173),
-        'Helicopter+UH': (88, 43, 168),
-        'LCU+LCU': (63, 81, 181),
-        'MLRS+MLRS': (33, 150, 243),
-        'Plane+Attacker': (0, 188, 212),
-        'Plane+Bomber': (0, 183, 207),
-        'Plane+Cargo': (0, 178, 202),
-        'Plane+Fighter': (0, 173, 197),
-        'RADAR+RADAR': (0, 150, 136),
-        'SAM+SAM': (76, 175, 80),
-        'Self-propelled Artillery+Self-propelled Artillery': (139, 195, 74),
-        'Support+Mil_car': (205, 220, 57),
-        'Support+Mil_truck': (200, 215, 52),
-        'Support+ASV': (195, 210, 47),
-        'Tank+Tank': (255, 122, 0),
-        'TEL+TEL': (121, 85, 72),
-        'civilian': (0, 0, 0),
-    }
-    CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
-    PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
-
-    def __init__(self, ann_file, **kwargs):
-        super().__init__(ann_file, **kwargs)
+# @ROTATED_DATASETS.register_module()
+# class AMODFineGrainedDataset(AMODDataset):  # Add to __iniy__.py!
+#     CLASSES_PALETTE_COMBINATION_DIC = {
+#         'Armored+APC': (244, 67, 54),
+#         'Armored+IFV': (234, 57, 44),
+#         'Armored+MRAP': (229, 52, 39),
+#         'Artillery+Artillery': (255, 51, 204),
+#         'Boat+Boat': (156, 39, 176),
+#         'Boat+RHIB': (151, 34, 171),
+#         'Helicopter+AH': (103, 58, 183),
+#         'Helicopter+CH': (98, 53, 178),
+#         'Helicopter+OH': (93, 48, 173),
+#         'Helicopter+UH': (88, 43, 168),
+#         'LCU+LCU': (63, 81, 181),
+#         'MLRS+MLRS': (33, 150, 243),
+#         'Plane+Attacker': (0, 188, 212),
+#         'Plane+Bomber': (0, 183, 207),
+#         'Plane+Cargo': (0, 178, 202),
+#         'Plane+Fighter': (0, 173, 197),
+#         'RADAR+RADAR': (0, 150, 136),
+#         'SAM+SAM': (76, 175, 80),
+#         'Self-propelled Artillery+Self-propelled Artillery': (139, 195, 74),
+#         'Support+Mil_car': (205, 220, 57),
+#         'Support+Mil_truck': (200, 215, 52),
+#         'Support+ASV': (195, 210, 47),
+#         'Tank+Tank': (255, 122, 0),
+#         'TEL+TEL': (121, 85, 72),
+#     }
+#     CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
+#     PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
+#
+#     def __init__(self, ann_file, **kwargs):
+#         super().__init__(ann_file, **kwargs)
+#
+#     def load_annotations(self, ann_file):
+#         sample_idx_list = mmcv.list_from_file(ann_file)
+#         data_info_list = []
+#
+#         for sample_idx in sample_idx_list:
+#             for angle in self.angles:
+#                 try:
+#                     annot_df = pd.read_csv(
+#                         f'{self.img_prefix}/{sample_idx}/{angle}/ANNOTATION-{self.modality}_{sample_idx}_{angle}.csv'
+#                     ).query('usable == "T"')
+#
+#                     if not len(annot_df):
+#                         continue
+#
+#                     annot_df['middle_class'] = annot_df['main_class'] + '+' + annot_df['middle_class']
+#
+#                     polygons = annot_df[['x1', 'y1', 'x2', 'y2', 'x3', 'y3', 'x4', 'y4']].values
+#                     obb_bboxes = []
+#                     for polygon in polygons:
+#                         obb_bbox = poly2obb_np(polygon, self.version)
+#                         if obb_bbox is not None:
+#                             obb_bboxes.append(obb_bbox)
+#
+#                     obb_bboxes = np.array(obb_bboxes, dtype=np.float32)
+#                     labels = np.array(list(map(lambda label: self.cat2label.get(label, -1),
+#                                                annot_df['middle_class'])), dtype=np.int64)
+#
+#                     valid_labels_inds = labels != -1
+#                     labels = labels[valid_labels_inds]
+#                     obb_bboxes = obb_bboxes[valid_labels_inds]
+#
+#                     data_info_list.append({
+#                         'filename': f'{sample_idx}/{angle}/{self.modality}_{sample_idx}_{angle}.{self.ext}',
+#                         'width': self.width, 'height': self.height,
+#                         'ann': {
+#                             'bboxes': obb_bboxes,
+#                             'labels': labels,
+#                         }
+#                     })
+#
+#                 except Exception as e:
+#                     print(f"Error processing {sample_idx} at angle {angle}: {e}")
+#                     continue
+#
+#         return data_info_list
+#
+#
+# @ROTATED_DATASETS.register_module()
+# class AMODwithCivilianDataset(AMODDataset):  # Add to __iniy__.py!
+#     CLASSES_PALETTE_COMBINATION_DIC = {
+#         'Armored': (244, 67, 54),
+#         'Artillery': (255, 51, 204),
+#         'Boat': (156, 39, 176),
+#         'Helicopter': (103, 58, 183),
+#         'LCU': (63, 81, 181),
+#         'MLRS': (33, 150, 243),
+#         'Plane': (0, 188, 212),
+#         'RADAR': (0, 150, 136),
+#         'SAM': (76, 175, 80),
+#         'Self-propelled Artillery': (139, 195, 74),
+#         'Support': (205, 220, 57),
+#         'Tank': (255, 122, 0),
+#         'TEL': (121, 85, 72),
+#         'civilian': (0, 0, 0),
+#     }
+#     CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
+#     PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
+#
+#     def __init__(self, ann_file, **kwargs):
+#         super().__init__(ann_file, **kwargs)
+#
+#
+# @ROTATED_DATASETS.register_module()
+# class AMODwithCivilianFineGrainedDataset(AMODFineGrainedDataset):  # Add to __iniy__.py!
+#     CLASSES_PALETTE_COMBINATION_DIC = {
+#         'Armored+APC': (244, 67, 54),
+#         'Armored+IFV': (234, 57, 44),
+#         'Armored+MRAP': (229, 52, 39),
+#         'Artillery+Artillery': (255, 51, 204),
+#         'Boat+Boat': (156, 39, 176),
+#         'Boat+RHIB': (151, 34, 171),
+#         'Helicopter+AH': (103, 58, 183),
+#         'Helicopter+CH': (98, 53, 178),
+#         'Helicopter+OH': (93, 48, 173),
+#         'Helicopter+UH': (88, 43, 168),
+#         'LCU+LCU': (63, 81, 181),
+#         'MLRS+MLRS': (33, 150, 243),
+#         'Plane+Attacker': (0, 188, 212),
+#         'Plane+Bomber': (0, 183, 207),
+#         'Plane+Cargo': (0, 178, 202),
+#         'Plane+Fighter': (0, 173, 197),
+#         'RADAR+RADAR': (0, 150, 136),
+#         'SAM+SAM': (76, 175, 80),
+#         'Self-propelled Artillery+Self-propelled Artillery': (139, 195, 74),
+#         'Support+Mil_car': (205, 220, 57),
+#         'Support+Mil_truck': (200, 215, 52),
+#         'Support+ASV': (195, 210, 47),
+#         'Tank+Tank': (255, 122, 0),
+#         'TEL+TEL': (121, 85, 72),
+#         'civilian': (0, 0, 0),
+#     }
+#     CLASSES = tuple(CLASSES_PALETTE_COMBINATION_DIC.keys())
+#     PALETTE = tuple(CLASSES_PALETTE_COMBINATION_DIC.values())
+#
+#     def __init__(self, ann_file, **kwargs):
+#         super().__init__(ann_file, **kwargs)
