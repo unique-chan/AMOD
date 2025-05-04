@@ -58,22 +58,28 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    # samples_per_gpu=2,
-    # workers_per_gpu=2,
+    samples_per_gpu=2,
+    workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        ann_file=data_root + 'train/annfiles/',
-        img_prefix=data_root + 'train/images/',
+        ann_file='train/annfiles/',
+        img_prefix='train/images/',
+        # ann_file=data_root + 'train/annfiles/',
+        # img_prefix=data_root + 'train/images/',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        ann_file=data_root + 'val/annfiles/',
-        img_prefix=data_root + 'val/images/',
+        ann_file='val/annfiles/',
+        img_prefix='val/images/',
+        # ann_file=data_root + 'val/annfiles/',
+        # img_prefix=data_root + 'val/images/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=data_root + 'test/images/',
         img_prefix=data_root + 'test/images/',
+        # ann_file=data_root + 'test/images/',
+        # img_prefix=data_root + 'test/images/',
         pipeline=test_pipeline)
 )
 
