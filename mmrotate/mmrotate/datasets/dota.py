@@ -77,6 +77,7 @@ class DOTADataset(CustomDataset):
                 data_info['ann']['labels'] = []
                 data_infos.append(data_info)
         else:
+            print('TEST PURPOSE ---.', len(ann_files))
             for ann_file in ann_files:
                 data_info = {}
                 img_id = osp.split(ann_file)[1][:-4]
