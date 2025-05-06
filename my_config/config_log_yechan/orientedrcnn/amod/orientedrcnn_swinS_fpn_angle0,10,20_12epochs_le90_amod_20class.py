@@ -20,7 +20,7 @@ lr_config = dict(
     step=[16, 22]
 )
 runner = dict(type='EpochBasedRunner', max_epochs=12)
-checkpoint_config = dict(interval=-1) # save only when val mAP is best
+checkpoint_config = dict(interval=1) # -1: save only when val mAP is best
 log_config = dict(interval=50, hooks=[dict(type='TextLoggerHook'),
                                       dict(type='TensorboardLoggerHook')])
 dist_params = dict(backend='nccl')
