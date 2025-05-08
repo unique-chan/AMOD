@@ -97,6 +97,11 @@ class DOTADatasetReconstructed(CustomDataset):
                         except:  # noqa: E722
                             continue
                         cls_name = bbox_info[8]
+
+                        # Yechan Added ->
+                        if cls_name not in cls_map:
+                            continue
+
                         difficulty = int(bbox_info[9])
                         label = cls_map[cls_name]
                         if difficulty > self.difficulty:
