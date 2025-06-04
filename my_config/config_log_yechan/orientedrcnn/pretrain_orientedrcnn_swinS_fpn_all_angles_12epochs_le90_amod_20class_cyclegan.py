@@ -63,7 +63,7 @@ test_pipeline = [
     # dict(type='LoadAnnotations', with_bbox=True), # Not allowed for val/test!
     dict(
         type='MultiScaleFlipAug',
-        img_scale=[(640, 480), (800, 600), (1280, 960)],
+        img_scale=[(800, 600)],
         transforms=[
             dict(type='RResize'),
             dict(type='Normalize', **img_norm_cfg),
