@@ -101,9 +101,13 @@ class DIORDatasetReconstructed(CustomDataset):
             for obj in root.findall('object'):
                 cls = obj.find('name').text.lower()
                 label = self.cat2label[cls]
+                # 수연 추가 
+                if cls not in self.cat2label:
+                    continue
+                label = self.cat2label[cls]
+
                 if label is None:
                     continue
-
                 if self.xmltype == 'obb':
                     bnd_box = obj.find('robndbox')
                     polygon = np.array([
