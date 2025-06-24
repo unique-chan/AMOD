@@ -6,7 +6,10 @@ from .pipelines import *  # noqa: F401, F403
 from .sar import SARDataset  # noqa: F401, F403
 from .amod import *  # noqa: F401, F403
 from .dota_reconstructed import DOTADatasetReconstructed
+from .dior import DIORDataset
+from .dior_reconstructed import DIORDatasetReconstructed  # noqa: F
 
 __all__ = ['SARDataset', 'DOTADataset', 'build_dataset', 'HRSCDataset',
-           'AMODDataset', 'DOTADatasetReconstructed'] #, 'AMODFineGrainedDataset',
+           'AMODDataset', 'DOTADatasetReconstructed',
+           'DIORDataset', 'DIORDatasetReconstructed'] #, 'AMODFineGrainedDataset',
            # 'AMODwithCivilianDataset', 'AMODwithCivilianFineGrainedDataset']

@@ -1,9 +1,7 @@
 # 🚩 DEFAULT CONFIG ####################################################################################################
-dataset_type = 'AMODDataset'
-angles = [0, 10, 20, 30, 40, 50]
-data_root = '/media/kimsooyeon/SY/AMOD_V1_FINAL_OPTICAL/'         # Important: should be ended with '/'
-modality = 'EO'                     # 'eo' or 'ir'
-img_extension = 'png'               # 'png' or 'jpg'
+dataset_type = 'DIORDatasetReconstructed'
+data_root = '/home/kimsooyeon/GAN/data/DIOR/'         # Important: should be ended with '/'
+num_classes = 20
 load_from = None
 resume_from = None
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -34,11 +32,7 @@ mp_start_method = 'fork'
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
-    dict(type='RResize',
-        img_scale=[(1536, 1152), (2340, 1728)], # 0.8x - 1.2x  (1x: 1920x1440)
-        multiscale_mode='range'),
-    dict(type='RRandomCrop', crop_size=(1024, 1024), allow_negative_crop=False,
-         crop_type='absolute', version=angle_version),
+    dict(type='RResize', img_scale=(800, 800)),
     dict(type='RRandomFlip',
          flip_ratio=[0.25, 0.25, 0.25],
          direction=['horizontal', 'vertical', 'diagonal'],
@@ -53,7 +47,7 @@ test_pipeline = [
     # dict(type='LoadAnnotations', with_bbox=True), # Not allowed for val/test!
     dict(
         type='MultiScaleFlipAug',
-        img_scale=[(1920, 1440)],
+        img_scale=(800, 800),
         transforms=[
             dict(type='RResize'),
             dict(type='Normalize', **img_norm_cfg),
@@ -63,16 +57,40 @@ test_pipeline = [
             # dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])  # Not allowed for val/test!
         ])
 ]
+
+
 data = dict(
-    samples_per_gpu=2,
-    workers_per_gpu=4,
-    train=dict(type=dataset_type, data_root=data_root, ann_file='train_ThreeFourth.txt', img_prefix='train', angles=angles,
-               pipeline=train_pipeline, version=angle_version, modality=modality, ext=img_extension),
-    val=dict(type=dataset_type, data_root=data_root, ann_file='val.txt', img_prefix='train', angles=angles,
-             pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension),
-    test=dict(type=dataset_type, data_root=data_root, ann_file='test.txt', img_prefix='test', angles=angles,
-              pipeline=test_pipeline, version=angle_version, modality=modality, ext=img_extension)
+    train=dict(
+        type='DIORDataset',
+        ann_file=data_root + 'ImageSets/Main/train.txt',
+        img_prefix=data_root + 'JPEGImages-trainval',
+        annot_prefix=data_root + 'Annotations/Oriented Bounding Boxes',
+        xmltype='obb',
+        version='oc',
+        pipeline=train_pipeline),
+    val=dict(
+        type=dataset_type,
+        ann_file=data_root + 'ImageSets/Main/val.txt',
+        img_prefix=data_root + 'JPEGImages-trainval/',
+        annot_prefix=data_root + 'Annotations/Oriented Bounding Boxes/',
+        xmltype='obb',
+        version='oc',
+        pipeline=test_pipeline
+    ),
+    test=dict(
+        type=dataset_type,
+        ann_file=data_root + 'ImageSets/Main/test.txt',
+        img_prefix=data_root + 'JPEGImages-test/',
+        annot_prefix=data_root + 'Annotations/Oriented Bounding Boxes/',
+        xmltype='obb',
+        version='oc',
+        pipeline=test_pipeline
+    )
 )
+
+
+
+
 
 
 # 🤖 MODEL CONFIG ######################################################################################################
@@ -144,7 +162,7 @@ model = dict(
             in_channels=256,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=13,
+            num_classes=num_classes,
             bbox_coder=dict(
                 type='DeltaXYWHAOBBoxCoder',
                 angle_range=angle_version,
