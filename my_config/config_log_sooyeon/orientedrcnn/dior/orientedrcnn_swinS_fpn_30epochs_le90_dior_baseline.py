@@ -1,6 +1,6 @@
 # 🚩 DEFAULT CONFIG ####################################################################################################
 dataset_type = 'DIORDataset'
-data_root = '/home/kimsooyeon/GAN/AMOD/DIOR/'         # Important: should be ended with '/'
+data_root = '/home/kimsooyeon/GAN/data/DIOR/'         # Important: should be ended with '/'
 num_classes = 20
 load_from = None
 resume_from = None
@@ -60,7 +60,7 @@ test_pipeline = [
 
 data = dict(
     train=dict(
-        type='DIORDataset',
+        type=dataset_type,
         ann_file=data_root + 'ImageSets/Main/train.txt',
         img_prefix=data_root + 'JPEGImages-trainval',
         annot_prefix=data_root + 'Annotations/Oriented Bounding Boxes',

@@ -61,7 +61,7 @@ test_pipeline = [
 
 data = dict(
     train=dict(
-        type='DIORDataset',
+        type=dataset_type,
         ann_file=data_root + 'ImageSets/Main/train.txt',
         img_prefix=data_root + 'JPEGImages-trainval',
         annot_prefix=data_root + 'Annotations/Oriented Bounding Boxes',
