@@ -19,14 +19,14 @@
 <hr>
 
 ### What is AMOD?
-* Here, `AMOD` refers to our large-scale synthetic dataset, <u>A</u>rma3 <u>M</u>ulti-view <u>O</u>bject <u>D</u>etection in aerial imagery!
+* Here, `AMOD` refers to our large-scale synthetic dataset, <u>A</u>erial <u>M</u>ilitary <u>O</u>bject <u>D</u>etection (RGB-T, Multi-view)!
 * Categories of AMOD: *Armored, Artillery, Helicopter, LCU, MLRS, Plane, RADAR, SAM, Self-propelled Artillery, Support, Tank, TEL*.
 * The dataset structure is as follows:
 ~~~
 |—— 📁 train
 	|—— 📁 train_imgs
-		|—— 📁 0000 // scene number
-			|—— 🖼️ EO_0000_0.png // image at look angle 0 for scene "0000"
+		|—— 📁 0000 // scenario number
+			|—— 🖼️ EO_0000_0.png // image at look angle 0 for scenario "0000"
 			|—— 🖼️ EO_0000_10.png
                 ...
             |—— 🖼️ EO_0000_50.png
@@ -38,9 +38,9 @@
 |—— 📁 test
 	|—— 📁 test_imgs
     |—— 📁 test_labels
-|—— 📄 train.txt        // scene number list for train split
-|—— 📄 val.txt          // scene number list for validation split
-|—— 📄 test.txt         // scene number list for test split
+|—— 📄 train.txt        // scenario number list for train split
+|—— 📄 val.txt          // scenario number list for validation split
+|—— 📄 test.txt         // scenario number list for test split
 ~~~
 
 
