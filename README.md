@@ -18,6 +18,13 @@
 
 <hr>
 
+### Updates
+- (07/2026) 🎉 Our work has been accepted to ACM Multimedia (MM) 2026!
+
+### Acknowledgement
+We would like to thank 🎖️ SooYeon Kim (KRIT) - AMOD Experimentation, 🎖️ Sihyun Kim (Yonsei Univ.) - [G-MAD Code Design](https://github.com/unique-chan/G-MAD), 🎖️ Sung Heon Kim (GIST), 🎖️ Junggyun Oh (HDC), and 🎖️ Prof. Yeongmin Ko (KNU) for their assistance.
+
+
 ### What is AMOD?
 * Here, `AMOD` refers to our large-scale synthetic dataset, <u>A</u>erial <u>M</u>ilitary <u>O</u>bject <u>D</u>etection (RGB-T, Multi-view)!
 * Categories of AMOD: *Armored, Artillery, Helicopter, LCU, MLRS, Plane, RADAR, SAM, Self-propelled Artillery, Support, Tank, TEL*.
@@ -355,4 +362,14 @@ Examples:
     Still, we recommend following the previous **good example**!
   </details>
 
+
+### Citation
+~~~
+@inproceedings{G-MAD2026,
+  title={G-MAD: A Game-Based Data Generation Framework for Multi-View RGB-T Aerial Object Detection},
+  author={Kim, Yechan and Park, JongHyun and Yoon, Dongho and Jung, Namhoon and Jeon, Moongu},
+  year={2026},
+  booktitle={ACM International Conference on Multimedia}
+}
+~~~
   
