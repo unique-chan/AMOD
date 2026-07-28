@@ -22,7 +22,7 @@
 - (07/2026) 🎉 Our work has been accepted to ACM Multimedia (MM) 2026!
 
 ### Acknowledgement
-We would like to thank 🎖️ SooYeon Kim (KRIT) - AMOD Experimentation, 🎖️ Sihyun Kim (Yonsei Univ.) - [G-MAD Code Design](https://github.com/unique-chan/G-MAD), 🎖️ Sung Heon Kim (GIST), 🎖️ Junggyun Oh (HDC), and 🎖️ Prof. Yeongmin Ko (KNU) for their assistance.
+We would like to thank 🎖️ SooYeon Kim (KRIT) - AMOD Experimentation, 🎖️ Sihyun Kim (Yonsei Univ.) - [G-MAD Code Design](https://github.com/unique-chan/G-MAD), 🎖️ Jongmin Joo (GIST), 🎖️ Sung Heon Kim (GIST), 🎖️ Junggyun Oh (HDC), and 🎖️ Prof. Yeongmin Ko (KNU) for their assistance.
 
 
 ### What is AMOD?
